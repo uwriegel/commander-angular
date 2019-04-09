@@ -22,7 +22,8 @@ const createWindow = function() {
             nodeIntegration: true
         }        
     })) as string)
-    bounds.webPreferences = { nodeIntegration: true }        
+    bounds.webPreferences = { nodeIntegration: true }    
+    bounds.icon = '../kirk2.png'
 
     win = new BrowserWindow(bounds)
 
