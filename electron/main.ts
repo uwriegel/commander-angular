@@ -7,13 +7,14 @@ import * as settings from 'electron-settings'
 let win: BrowserWindow
 
 const createWindow = function() {
-    protocol.registerBufferProtocol('atom', async (request, callback) => {
-            var icon = await getIcon("*.js")
-            callback({mimeType: 'img/png', data: icon})
-        }, (error) => {
-            if (error) console.error('Failed to register protocol', error)
-        }
-    )
+    protocol.registerBufferProtocol('icon', async (request, callback) => {
+        const url = request.url
+        var ext = "*." + url.substr(7)
+        var icon = await getIcon(ext)
+        callback({mimeType: 'img/png', data: icon})
+    }, (error) => {
+        if (error) console.error('Failed to register protocol', error)
+    })
 
     const bounds = JSON.parse(settings.get("window-bounds", JSON.stringify({ 
         width: 800,
