@@ -1,10 +1,19 @@
-import { app, BrowserWindow } from "electron"
+import { app, BrowserWindow, protocol } from "electron"
 import * as path from "path"
 import * as url from "url"
+import { getIcon } from 'extension-fs'
 
 let win: BrowserWindow
 
 const createWindow = function() {
+    protocol.registerBufferProtocol('atom', async (request, callback) => {
+            var icon = await getIcon("*.js")
+            callback({mimeType: 'img/png', data: icon})
+        }, (error) => {
+            if (error) console.error('Failed to register protocol', error)
+        }
+    )
+
     win = new BrowserWindow({ 
         width: 800,
         height: 600,
@@ -22,7 +31,7 @@ const createWindow = function() {
             slashes: true
         })
     )
-    
+
     win.on("closed", () => win = null)
 }
 
