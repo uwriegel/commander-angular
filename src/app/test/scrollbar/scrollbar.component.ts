@@ -1,5 +1,4 @@
 import { Component, ViewChild, OnInit } from '@angular/core'
-import { Subscriber } from 'rxjs'
 import { ScrollbarComponent as ScrollBar } from "../../scrollbar/scrollbar.component"
 import { Columns } from 'src/app/columns/columns.component'
 import { ListItem } from '../../pipes/virtual-list.pipe'
@@ -104,8 +103,7 @@ export class ScrollbarComponent implements OnInit {
 
     private dirs = [ "c:\\", "c:\\windows", "c:\\windows\\system32"]
     //private dirs = [ "/", "/usr/share", "/opt"]
-    private displayObserver: Subscriber<ListItem[]>
-
+    
     private seed = 0
 }
 
