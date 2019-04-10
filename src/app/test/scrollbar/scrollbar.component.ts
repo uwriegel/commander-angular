@@ -3,6 +3,8 @@ import { Subscriber } from 'rxjs'
 import { ScrollbarComponent as ScrollBar } from "../../scrollbar/scrollbar.component"
 import { Columns } from 'src/app/columns/columns.component'
 import { ListItem } from '../../pipes/virtual-list.pipe'
+const extfs = (window as any).require('extension-fs')
+const getFiles = extfs.getFiles
 
 @Component({
     selector: 'app-test-scrollbar',
@@ -15,14 +17,7 @@ export class ScrollbarComponent implements OnInit {
     items: ListItem[] = []
     
     ngOnInit() { 
-        this.get(this.dirs[1]) 
-    }
-
-    itemsChanged() {
-        this.zone.run(() => {
-            const response: Response = JSON.parse(CommanderLeft.getItems())
-            this.items = response.items
-        })
+        this.onNew()
     }
 
     onNew() {
@@ -31,8 +26,8 @@ export class ScrollbarComponent implements OnInit {
         this.get(dir)
     }
 
-    get(path: string) { 
-        CommanderLeft.changePath(path)
+    async get(path: string) { 
+        this.items = await getFiles(path)
     }
 
     onKeyDown(evt: KeyboardEvent) {
@@ -59,14 +54,6 @@ export class ScrollbarComponent implements OnInit {
                 return // exit this handler for other keys
         }
         evt.preventDefault() // prevent the default action (scroll / move caret)
-    }
-
-    createFolder(text: string) {
-
-    }
-
-    copy(targetPath: string, text: string) {
-
     }
 
     private getCurrentIndex(defaultValue?: number) { 
@@ -115,6 +102,8 @@ export class ScrollbarComponent implements OnInit {
 
     private dirs = [ "c:\\", "c:\\windows", "c:\\windows\\system32"]
     //private dirs = [ "/", "/usr/share", "/opt"]
-    private displayObserver: Subscriber<Item[]>
+    private displayObserver: Subscriber<ListItem[]>
+
+    private seed = 0
 }
 
