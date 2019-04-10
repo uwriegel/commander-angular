@@ -1,35 +1,19 @@
-import { Component } from '@angular/core'
-
-declare var process
+import { Component, ElementRef } from '@angular/core'
+import { ThemesService } from './services/themes.service'
 
 @Component({
     selector: 'app-root',
+    host: {
+		"[class.blue-theme]": "themes.theme == 'blue'",
+        "[class.light-blue-theme]": "themes.theme == 'lightblue'",
+        "[class.dark-theme]": "themes.theme == 'dark'",
+        "[class.ubuntu-theme]": "themes.theme == 'ubuntu'"
+	},
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
-    constructor() {
-        if ((<any>window).require) {
-            try {
-                this.addon = (<any>window).require("extension-fs")
-            } catch (error) {
-                throw error
-            }
-        } else 
-            console.warn("Could not load electron ipc");             
+    constructor(private themes: ThemesService, appElement: ElementRef<HTMLElement>) {
+        this.themes.initialize(appElement.nativeElement)
     }
-
-    async callAddon() {
-        let files = await this.addon.getFiles("c:/windows/system32")
-        //let files = await addon.getFiles("d:/Test😎😎😎")
-    
-        const hrstart = process.hrtime()
-        //files = await addon.getFiles("c:/windows/system32")
-        const diff = process.hrtime(hrstart)
-        console.info(`Execution time files (hr): ${(diff[1] / 1000000.0)}`)
-    }
-
-    private addon: any
-    private test: any 
 }
