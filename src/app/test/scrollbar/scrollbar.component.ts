@@ -27,7 +27,9 @@ export class ScrollbarComponent implements OnInit {
     }
 
     async get(path: string) { 
-        this.items = await getFiles(path)
+        let items = await getFiles(path)
+        items[0].isCurrent = true
+        this.items = items
     }
 
     onKeyDown(evt: KeyboardEvent) {
