@@ -1,10 +1,22 @@
-import { app, BrowserWindow, Menu, protocol } from "electron"
+import { app, BrowserWindow, Menu, protocol, ipcMain } from "electron"
 import * as path from "path"
 import * as url from "url"
 import { getIcon } from 'extension-fs'
 import * as settings from 'electron-settings'
 
+const THEME = "theme"
+const themeBlue = "blue"
+const themeLightBlue = "lightblue"
+const themeDark = "dark"
+
 let win: BrowserWindow
+let theme = settings.get(THEME, themeBlue)
+
+const setTheme = function(themeToSet: string) {
+    theme = themeToSet
+    win.webContents.send(THEME, theme)
+    settings.set(THEME, theme)    
+}
 
 const createWindow = function() {
     protocol.registerBufferProtocol('icon', async (request, callback) => {
@@ -30,6 +42,10 @@ const createWindow = function() {
 
     if (settings.get("isMaximized"))
         win.maximize()
+
+    ipcMain.on("getTheme", (_, __) => {
+        setTheme(settings.get("theme"))
+    })
     
     win.loadURL(
         url.format({
@@ -158,17 +174,20 @@ const createWindow = function() {
                 submenu: [{
                     label: '&Blau',
                     type: "radio",
-                    //click: evt => mainWindow.webContents.send("preview", evt.checked)
+                    checked: theme == themeBlue,
+                    click: evt => setTheme(themeBlue)
                 },
                 {
                     label: '&Hellblau',
                     type: "radio",
-                    //click: evt => mainWindow.webContents.send("preview", evt.checked)
+                    checked: theme == themeLightBlue,
+                    click: evt => setTheme(themeLightBlue)
                 },
                 {
                     label: '&Dunkel',
                     type: "radio",
-                    //click: evt => mainWindow.webContents.send("preview", evt.checked)
+                    checked: theme == themeDark,
+                    click: evt => setTheme(themeDark)
                 }]
             },
             {

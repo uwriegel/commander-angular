@@ -1,5 +1,7 @@
 import { Component, ElementRef } from '@angular/core'
 import { ThemesService } from './services/themes.service'
+const electron = (window as any).require('electron')
+const ipcRenderer = electron.ipcRenderer
 
 @Component({
     selector: 'app-root',
@@ -15,5 +17,11 @@ import { ThemesService } from './services/themes.service'
 export class AppComponent {
     constructor(private themes: ThemesService, appElement: ElementRef<HTMLElement>) {
         this.themes.initialize(appElement.nativeElement)
+
+        ipcRenderer.send("getTheme")
+
+        ipcRenderer.on("theme", (event , data)=> {
+            this.themes.theme = data
+        })
     }
 }
