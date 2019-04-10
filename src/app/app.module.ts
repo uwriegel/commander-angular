@@ -10,6 +10,9 @@ import { ColumnsComponent } from './columns/columns.component';
 import { VirtualListPipe } from './pipes/virtual-list.pipe';
 import { TestColumnsComponent } from './test/columns/columns.component';
 import { ScrollbarComponent as TestScrollbarComponent } from './test/scrollbar/scrollbar.component';
+import { TemplatesComponent } from './test/datatemplates/templates/templates.component';
+import { DataTemplateComponent } from './test/datatemplates/data-template/data-template.component';
+import { DataTemplate2Component } from './test/datatemplates/data-template2/data-template2.component';
 
 @NgModule({
     declarations: [
@@ -21,6 +24,9 @@ import { ScrollbarComponent as TestScrollbarComponent } from './test/scrollbar/s
         VirtualListPipe,
         TestColumnsComponent,
         TestScrollbarComponent,
+        TemplatesComponent,
+        DataTemplateComponent,
+        DataTemplate2Component
     ],
     imports: [
         BrowserModule,
