@@ -16,9 +16,11 @@ import { DataTemplate2Component } from './test/datatemplates/data-template2/data
 import { TableViewComponent } from './table-view/table-view.component';
 import { ClipHeightPipe } from './pipes/clip-height.pipe';
 import { TableViewItemComponent } from './table-view-item/table-view-item.component';
-import { TableViewTestItemComponent } from './test/table-view-test-item/table-view-test-item.component';
 import { FolderComponent } from './icon/folder/folder.component';
 import { DriveComponent } from './icon/drive/drive.component';
+import { TableViewComponent as TestTableViewComponent } from './test/table-view/table-view/table-view.component';
+import { ListItemDirective } from './test/table-view/directives/list-item.directive';
+import { ItemTemplateComponent } from './test/table-view/item-template/item-template.component';
 
 @NgModule({
     declarations: [
@@ -36,15 +38,20 @@ import { DriveComponent } from './icon/drive/drive.component';
         TableViewComponent,
         ClipHeightPipe,
         TableViewItemComponent,
-        TableViewTestItemComponent,
         FolderComponent,
-        DriveComponent
+        DriveComponent,
+        TestTableViewComponent,
+        ListItemDirective,
+        ItemTemplateComponent
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [
+        ItemTemplateComponent
+    ]
 })
 export class AppModule { }

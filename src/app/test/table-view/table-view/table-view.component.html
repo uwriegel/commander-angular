@@ -1,0 +1,14 @@
+<table>
+    <thead>
+        <tr>
+            <th>Spalte 1</th>
+            <th>Spalte 2</th>
+            <th>Spalte 3</th>
+        </tr>
+    </thead>
+    <tbody>
+        <ng-container *ngFor="let item of items" >
+            <tr appListItem [item]='item'></tr>
+        </ng-container>
+    </tbody>
+</table>    
