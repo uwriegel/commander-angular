@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit, ViewContainerRef, ComponentFactoryResolver } from '@angular/core'
+import { Directive, Input, OnInit, ViewContainerRef, ComponentFactoryResolver, Renderer2 } from '@angular/core'
 import { ListItem } from 'src/app/pipes/virtual-list.pipe'
 import { ItemTemplateComponent } from '../item-template/item-template.component'
 
@@ -11,7 +11,8 @@ export class ListItemDirective implements OnInit {
     item: ListItem
 
     constructor(private viewContainerRef: ViewContainerRef,
-        private componentFactoryResolver: ComponentFactoryResolver) { }
+        private componentFactoryResolver: ComponentFactoryResolver,
+        private renderer: Renderer2) { }
 
     ngOnInit(): void {
         console.log(`On Init mit ${this.item}`)
@@ -21,6 +22,5 @@ export class ListItemDirective implements OnInit {
         let componentRef = this.viewContainerRef.createComponent(componentFactory) 
         let component = componentRef.instance as ItemTemplateComponent
         component.item = this.item
-        
     }
 }

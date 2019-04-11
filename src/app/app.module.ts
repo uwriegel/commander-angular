@@ -21,6 +21,7 @@ import { DriveComponent } from './icon/drive/drive.component';
 import { TableViewComponent as TestTableViewComponent } from './test/table-view/table-view/table-view.component';
 import { ListItemDirective } from './test/table-view/directives/list-item.directive';
 import { ItemTemplateComponent } from './test/table-view/item-template/item-template.component';
+import { TableViewContainerComponent } from './test/table-view/table-view-container/table-view-container.component';
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import { ItemTemplateComponent } from './test/table-view/item-template/item-temp
         DriveComponent,
         TestTableViewComponent,
         ListItemDirective,
-        ItemTemplateComponent
+        ItemTemplateComponent,
+        TableViewContainerComponent,
     ],
     imports: [
         BrowserModule,
