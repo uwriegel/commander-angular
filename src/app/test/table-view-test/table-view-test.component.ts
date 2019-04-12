@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
-import { IColumnSortEvent, Columns } from '../../columns/columns.component'
+import { IColumnSortEvent, Columns, ColumnsType } from '../../columns/columns.component'
 import { ThemesService } from 'src/app/services/themes.service'
 import { TableViewComponent as TableView } from '../../table-view/table-view.component'
 import { ListItem } from 'src/app/pipes/virtual-list.pipe'
@@ -19,10 +19,6 @@ const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
     styleUrls: ['./table-view-test.component.css']
 })
 export class TableViewTestComponent implements OnInit {
-
-    setColumns(columns: Columns) { 
-        this.columns = columns
-    }
 
     // itemsChanged() {
     //     this.zone.run(() => {
@@ -48,6 +44,32 @@ export class TableViewTestComponent implements OnInit {
     constructor(public themes: ThemesService) { }
 
     ngOnInit() { 
+        this.columns = {
+            name: "directory",
+            values: [{
+                    columnsType: ColumnsType.String,
+                    isSortable: true,
+                    name: "Name"
+                }, {
+                    columnsType: ColumnsType.String,
+                    isSortable: true,
+                    name: "Erw."
+                }, {
+                    columnsType: ColumnsType.Date,
+                    isSortable: true,
+                    name: "Datum"
+                }, {
+                    columnsType: ColumnsType.Size,
+                    isSortable: true,
+                    name: "Größe"
+                }, {
+                    columnsType: ColumnsType.String,
+                    isSortable: true,
+                    name: "Version"
+                }
+            ]
+        }
+        
         this.tableView.focus()
     }
 
