@@ -9,3 +9,4 @@ run ```ng run electron```
 * Icons: try up to 3 times with short sleep
 * Mouse wheel zoom
 * Adapt zoom level in menue
+* Map items to display array only for displayed view
