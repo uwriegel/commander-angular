@@ -4,7 +4,14 @@ import { ThemesService } from 'src/app/services/themes.service'
 import { TableViewComponent as TableView } from '../../table-view/table-view.component'
 import { ListItem } from 'src/app/pipes/virtual-list.pipe'
 const extfs = (window as any).require('extension-fs')
-const getFiles = extfs.getFiles
+interface FileItem {
+    displayName: string
+    size: number
+    time: Date
+    isDirectory: boolean
+    isHidden: boolean
+}
+const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
 
 @Component({
     selector: 'app-test-table-view',

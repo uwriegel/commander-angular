@@ -3,7 +3,14 @@ import { ScrollbarComponent as ScrollBar } from "../../scrollbar/scrollbar.compo
 import { Columns } from 'src/app/columns/columns.component'
 import { ListItem } from '../../pipes/virtual-list.pipe'
 const extfs = (window as any).require('extension-fs')
-const getFiles = extfs.getFiles
+interface FileItem extends ListItem {
+    displayName: string
+    size: number
+    time: Date
+    isDirectory: boolean
+    isHidden: boolean
+}
+const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
 
 @Component({
     selector: 'app-test-scrollbar',
@@ -26,7 +33,7 @@ export class ScrollbarComponent implements OnInit {
     }
 
     async get(path: string) { 
-        let items = await getFiles(path)
+        let items = await getFiles(path) 
         items[0].isCurrent = true
         this.items = items
     }
