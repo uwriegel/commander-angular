@@ -10,5 +10,5 @@ run ```ng run electron```
 * Mouse wheel zoom
 * Adapt zoom level in menue
 * Map items to display array only for displayed view: No! instead use pipe items => string[]
-* Sanitize clip (itemheight): set Columns in testview
+
 

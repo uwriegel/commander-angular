@@ -15,7 +15,8 @@ import { ClipHeightPipe } from './pipes/clip-height.pipe';
 import { TableViewItemComponent } from './table-view-item/table-view-item.component';
 import { FolderComponent } from './icon/folder/folder.component';
 import { DriveComponent } from './icon/drive/drive.component';
-import { TableViewTestComponent } from './test/table-view-test/table-view-test.component'
+import { TableViewTestComponent } from './test/table-view-test/table-view-test.component';
+import { SanitizePipe } from './pipes/sanitize.pipe'
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import { TableViewTestComponent } from './test/table-view-test/table-view-test.c
         FolderComponent,
         DriveComponent,
         TableViewTestComponent,
+        SanitizePipe,
     ],
     imports: [
         BrowserModule,
