@@ -1,7 +1,6 @@
 import { Component, ViewChild, ElementRef, Output, EventEmitter, Input } from '@angular/core'
 import { ScrollbarComponent as Scrollbar } from '../scrollbar/scrollbar.component'
 import { ColumnsComponent as IColumnSortEvent, Columns } from '../columns/columns.component'
-import { getBodyNode } from '@angular/animations/browser/src/render/shared';
 import { repeatKey } from '../functional/scrolling'
 import { ListItem } from '../pipes/virtual-list.pipe'
 

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 //import {getFiles} from 'extension-fs'
-const extfs = (window as any).require('extension-fs')
 const process = (window as any).require('process')
+const extfs = (window as any).require('extension-fs')
 const getFiles = extfs.getFiles
 
 @Component({
