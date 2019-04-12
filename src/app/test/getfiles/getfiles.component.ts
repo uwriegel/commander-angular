@@ -1,8 +1,16 @@
 import { Component } from '@angular/core';
 //import {getFiles} from 'extension-fs'
 const process = (window as any).require('process')
+
 const extfs = (window as any).require('extension-fs')
-const getFiles = extfs.getFiles
+interface FileItem {
+    displayName: string
+    size: number
+    time: Date
+    isDirectory: boolean
+    isHidden: boolean
+}
+const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
 
 @Component({
     selector: 'app-getfiles',
@@ -16,7 +24,7 @@ export class GetfilesComponent {
     async onGet(url: string) {
         
         let hrstart = process.hrtime()
-        const items = await getFiles(url) as any[]
+        const items = await getFiles(url)
         let diff = process.hrtime(hrstart)
         console.info(`Execution time getfiles: ${(diff[1] / 1000_000.0)}`)
 
@@ -74,8 +82,7 @@ export class GetfilesComponent {
         return strNumber
     }
 
-    formatDate(dateString: string): string {
-        var date = new Date(dateString)
+    formatDate(date: Date): string {
         return this.dateFormat.format(date) + " " + this.timeFormat.format(date)
     }
 

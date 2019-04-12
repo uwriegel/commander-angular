@@ -31,13 +31,13 @@ const createWindow = function() {
     const bounds = JSON.parse(settings.get("window-bounds", JSON.stringify({ 
         width: 800,
         height: 600,
-        webPreferences: {
-            nodeIntegration: true
-        }        
     })) as string)
     bounds.webPreferences = { nodeIntegration: true }    
     bounds.icon = '../kirk2.png'
-
+    bounds.webPreferences = {
+        nodeIntegration: true,
+    }        
+    
     win = new BrowserWindow(bounds)
 
     if (settings.get("isMaximized"))
