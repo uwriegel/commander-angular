@@ -16,7 +16,9 @@ import { TableViewItemComponent } from './table-view-item/table-view-item.compon
 import { FolderComponent } from './icon/folder/folder.component';
 import { DriveComponent } from './icon/drive/drive.component';
 import { TableViewTestComponent } from './test/table-view-test/table-view-test.component';
-import { SanitizePipe } from './pipes/sanitize.pipe'
+import { SanitizePipe } from './pipes/sanitize.pipe';
+import { ChildComponent } from './test/deep-style/child/child.component';
+import { ContainerComponent } from './test/deep-style/container/container.component'
 
 @NgModule({
     declarations: [
@@ -35,6 +37,8 @@ import { SanitizePipe } from './pipes/sanitize.pipe'
         DriveComponent,
         TableViewTestComponent,
         SanitizePipe,
+        ChildComponent,
+        ContainerComponent,
     ],
     imports: [
         BrowserModule,
