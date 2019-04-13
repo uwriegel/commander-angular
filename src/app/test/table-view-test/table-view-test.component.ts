@@ -20,22 +20,11 @@ const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
 })
 export class TableViewTestComponent implements OnInit {
 
-    // itemsChanged() {
-    //     this.zone.run(() => {
-    //         const response: Response = JSON.parse(this.commander.getItems())
-    //         this.items = response.items
-    //     })
-    // }
-
     setCurrentItem(item: string) { }
     
-    onCurrentIndexChanged(index: number) {
-//        this.commander.setIndex(this.items[index].index)
-    }
+    onCurrentIndexChanged(index: number) { }
 
-    itemType = "item"
-    //itemType = "testItem"
-
+    path = ""
     columns: Columns
     items: ListItem[] = []
 
@@ -79,8 +68,7 @@ export class TableViewTestComponent implements OnInit {
     onPics() { this.get("c:\\04 - Brayka Bay") }
 
     async get(path: string) {
-        //this.commander.changePath(path)
-
+        this.path = path
         const items = await getFiles(path) as any[]
         this.items = items
         this.tableView.focus()

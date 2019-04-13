@@ -5,14 +5,21 @@
     <ng-container *ngFor="let item of items | virtualList: (tv.scrollbar) | async">
         <tr class="pointer-def" [class.isCurrent]="item.isCurrent" [class.isSelected]="item.isSelected" 
             [class.isHidden]="item.isHidden">
+            <div class="iconName">
+                <img [src]="item.displayName | iconUrl: path | sanitize" alt="" *ngIf="item.isDirectory != true">
+                <app-folder *ngIf="item.isDirectory"></app-folder>
+                <!-- <app-drive *ngIf="item.icon == 'Drive'"></app-drive> -->
+                <span class="nameValue">{{item.displayName | fileName}}</span>
+            </div>
             <td>
-                {{item.displayName}}
+                {{item.displayName | extension}}
             </td>
             <td>
-                {{item.time}}
+                <!-- [class.isExif]="item.isExif && column.columnsType == 2" -->
+                {{item.time | dateTime}}
             </td>
-            <td>
-                {{item.size}}
+            <td class="size">
+                {{item | fileSize}}
             </td>
         </tr>
     </ng-container>

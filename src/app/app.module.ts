@@ -12,11 +12,15 @@ import { TestColumnsComponent } from './test/columns/columns.component';
 import { ScrollbarComponent as TestScrollbarComponent } from './test/scrollbar/scrollbar.component';
 import { TableViewComponent } from './table-view/table-view.component';
 import { ClipHeightPipe } from './pipes/clip-height.pipe';
-import { TableViewItemComponent } from './table-view-item/table-view-item.component';
 import { FolderComponent } from './icon/folder/folder.component';
 import { DriveComponent } from './icon/drive/drive.component';
 import { TableViewTestComponent } from './test/table-view-test/table-view-test.component';
 import { SanitizePipe } from './pipes/sanitize.pipe';
+import { FileNamePipe } from './pipes/file-name.pipe';
+import { ExtensionPipe } from './pipes/extension.pipe';
+import { DateTimePipe } from './pipes/date-time.pipe';
+import { FileSizePipe } from './pipes/file-size.pipe';
+import { IconUrlPipe } from './pipes/icon-url.pipe';
 
 @NgModule({
     declarations: [
@@ -30,11 +34,15 @@ import { SanitizePipe } from './pipes/sanitize.pipe';
         TestScrollbarComponent,
         TableViewComponent,
         ClipHeightPipe,
-        TableViewItemComponent,
         FolderComponent,
         DriveComponent,
         TableViewTestComponent,
         SanitizePipe,
+        FileNamePipe,
+        ExtensionPipe,
+        DateTimePipe,
+        FileSizePipe,
+        IconUrlPipe,
     ],
     imports: [
         BrowserModule,
