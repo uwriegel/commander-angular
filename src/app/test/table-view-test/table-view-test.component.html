@@ -3,20 +3,19 @@
     [itemType]="itemType" [items]="items" (onCurrentIndexChanged)="onCurrentIndexChanged($event)"
     (onSort)="onSort($event)">
     <ng-container *ngFor="let item of items | virtualList: (tv.scrollbar) | async">
-        <tr class="pointer-def" app-table-view-item [item]=item [columns]="columns"  
-            [class.isCurrent]="item.isCurrent" [class.isSelected]="item.isSelected" [class.isHidden]="item.isHidden"></tr>
-    </ng-container>
-
-Idee: tableView body anstelle ng-container, man übergibt nichts!!! tableviewbody wird aus dem parent (der Listview die scrollbar auslesen und die items
-,dann andere items zur verfügung stellen (viewItems, duch die man dann mit ngfor durchiterien kann))
-    <!-- <tr>
-            <td>Spalte01</td>
-            <td>Spalte02</td>
+        <tr class="pointer-def" [class.isCurrent]="item.isCurrent" [class.isSelected]="item.isSelected" 
+            [class.isHidden]="item.isHidden">
+            <td>
+                {{item.displayName}}
+            </td>
+            <td>
+                {{item.time}}
+            </td>
+            <td>
+                {{item.size}}
+            </td>
         </tr>
-        <tr>
-            <td>Spalte11</td>
-            <td>Spalte12</td>
-        </tr> -->
+    </ng-container>
 </app-table-view>
 <div>
     <button (click)="onRoot()">Root</button>
