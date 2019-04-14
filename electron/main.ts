@@ -21,7 +21,7 @@ const setTheme = function(themeToSet: string) {
 const createWindow = function() {
     protocol.registerBufferProtocol('icon', async (request, callback) => {
         const url = request.url
-        var ext = "*." + url.substr(7)
+        var ext = url.substr(7)
         var icon = await getIcon(ext)
         callback({mimeType: 'img/png', data: icon})
     }, (error) => {

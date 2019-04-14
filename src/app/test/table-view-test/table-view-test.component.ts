@@ -3,6 +3,7 @@ import { IColumnSortEvent, Columns, ColumnsType } from '../../columns/columns.co
 import { ThemesService } from 'src/app/services/themes.service'
 import { TableViewComponent as TableView } from '../../table-view/table-view.component'
 import { ListItem } from 'src/app/pipes/virtual-list.pipe'
+const fs = (window as any).require('fs')
 const extfs = (window as any).require('extension-fs')
 interface FileItem {
     displayName: string
@@ -68,6 +69,7 @@ export class TableViewTestComponent implements OnInit {
     onPics() { this.get("c:\\04 - Brayka Bay") }
 
     async get(path: string) {
+        path = fs.realpathSync(path)
         this.path = path
         const items = await getFiles(path) as any[]
         this.items = items
@@ -82,7 +84,7 @@ export class TableViewTestComponent implements OnInit {
 
     }
 
-    copy(targetPath: string, text: string) {
+    copy(targetPath: string, text: string) {    
 
     }
 }
