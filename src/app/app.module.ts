@@ -21,6 +21,8 @@ import { ExtensionPipe } from './pipes/extension.pipe';
 import { DateTimePipe } from './pipes/date-time.pipe';
 import { FileSizePipe } from './pipes/file-size.pipe';
 import { IconUrlPipe } from './pipes/icon-url.pipe';
+import { CommanderViewComponent } from './commander-view/commander-view.component';
+import { CommanderViewTestComponent } from './test/commander-view-test/commander-view-test.component';
 
 @NgModule({
     declarations: [
@@ -43,6 +45,8 @@ import { IconUrlPipe } from './pipes/icon-url.pipe';
         DateTimePipe,
         FileSizePipe,
         IconUrlPipe,
+        CommanderViewComponent,
+        CommanderViewTestComponent,
     ],
     imports: [
         BrowserModule,
