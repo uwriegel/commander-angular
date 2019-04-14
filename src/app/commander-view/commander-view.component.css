@@ -9,3 +9,79 @@
     flex-direction: column;
     flex-grow: 1;    
 }
+
+.tableView {
+    flex-grow: 1;
+    position: relative;
+}
+
+input {
+    font-size: 100%;
+    box-sizing: border-box;
+    margin-left: 3px;
+    margin-right: 3px;
+    border-style: none;
+    width: calc(100% - 6px);
+    outline-width: 0px;
+}
+
+tr.isCurrent {
+    outline-color: lightgray;
+    outline-width: 1px;
+    outline-style: solid;
+    outline-offset: -1px;
+}
+
+tr.isSelected {
+    color: white;
+    background-color: blue;
+}
+
+tr.isHidden {
+    opacity: 0.5;
+}
+
+tr {
+    transition: background-color 0.3s;
+}
+
+td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    user-select: none;
+}
+
+td img {
+    width: 16px;
+    height: 16px;
+}
+
+.iconName {
+    display: flex;
+}
+
+.nameValue {
+    overflow: hidden;
+    margin-top: 1px;
+    margin-left: 3px;
+    text-overflow: ellipsis;
+}
+
+.size {
+    padding-right: 10px;
+    text-align: right;
+}
+
+.isExif {
+    color: darkblue;
+}
+
+.rightAligned {
+    text-align: right;
+    padding-right: 10px;
+}
+
+td span {
+    flex-grow: 1;
+}

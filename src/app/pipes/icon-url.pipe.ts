@@ -7,7 +7,7 @@ export class IconUrlPipe implements PipeTransform {
 
     transform(fileName: string, path: string): string {
         if (fileName.toLowerCase().endsWith(".exe")) 
-            return "icon://" + path + '\\' + fileName // TODO: make "/"
+            return "icon://" + path + '/' + fileName 
         
         const pos = fileName.lastIndexOf('.')
         if (pos == -1)
