@@ -1,26 +1,36 @@
 <div class="container" (focusin)="onFocusIn()" >
     <!-- <input #input value="{{currentPath}}" (change)="onInputChange()" (mouseup)="onMouseUp()" (keydown)="onInputKeydown($event)" appSelectAll > -->
-    <app-table-view #tv class="tableView" [itemHeight]="themes.itemHeight" [columnHeight]="themes.columnHeight" [columns]="columns" 
-        [items]="items" [id]="id" tabindex="1" >
-        <ng-container *ngFor="let item of items | virtualList: (tv.scrollbar) | async">
+    <app-table-view #tv class="tableView" [itemHeight]="themes.itemHeight" [columnHeight]="themes.columnHeight" [columns]="processor.columns" 
+        [items]="processor.items" [id]="id" tabindex="1" >
+        <ng-container *ngFor="let item of processor.items | virtualList: (tv.scrollbar) | async" [ngSwitch]="processor.columns.name">
+            
             <tr class="pointer-def" [class.isCurrent]="item.isCurrent" [class.isSelected]="item.isSelected" 
-                [class.isHidden]="item.isHidden">
-                <div class="iconName">
-                    <img [src]="item.displayName | iconUrl: path | sanitize" alt="" *ngIf="item.isDirectory != true">
-                    <app-folder *ngIf="item.isDirectory"></app-folder>
-                    <!-- <app-drive *ngIf="item.icon == 'Drive'"></app-drive> -->
-                    <span class="nameValue">{{item.displayName | fileName}}</span>
-                </div>
+                [class.isHidden]="item.isHidden" *ngSwitchCase="'directory'">
                 <td>
-                    {{item.displayName | extension}}
+                    <div class="iconName">
+                        <img [src]="item.displayName | iconUrl: path | sanitize" alt="" *ngIf="item.isDirectory != true">
+                        <app-folder *ngIf="item.isDirectory"></app-folder>
+                        <span class="nameValue">{{item.displayName | fileName}}</span>
+                    </div>
                 </td>
+                <td>{{item.displayName | extension}}</td>
                 <td>
                     <!-- [class.isExif]="item.isExif && column.columnsType == 2" -->
                     {{item.time | dateTime}}
                 </td>
-                <td class="size">
-                    {{item | fileSize}}
+                <td class="size">{{item | fileSize}}</td>
+            </tr>
+            
+            <tr class="pointer-def" [class.isCurrent]="item.isCurrent" [class.isSelected]="item.isSelected" 
+                [class.isHidden]="item.isHidden" *ngSwitchCase="'drive'">
+                <td>
+                    <div class="iconName">
+                        <app-drive></app-drive>
+                        <span class="nameValue">{{item.name}}</span>
+                    </div>
                 </td>
+                <td>{{item.description}}</td>
+                <td class="size">{{item | fileSize}}</td>
             </tr>
         </ng-container>
     </app-table-view>

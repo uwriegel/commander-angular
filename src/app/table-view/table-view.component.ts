@@ -46,23 +46,10 @@ export class TableViewComponent {
     }
 
     onFocusIn(evt: Event) {
+        console.log("Fokus innen")
     }
 
     focus() { 
-        const index = this.getCurrentIndex()
-        // var index = this.currentItemIndex - this.startPosition
-        // if (index >= 0 && index < this.tableCapacity)
-        // {
-        //     var trs = this.tbody.querySelectorAll('tr')
-        //     if (index < trs.length)
-        //     {
-        //         trs[index].focus()
-        //         return true
-        //     }
-        // }
-        // this.tableView.focus()
-        // return false
-    
         this.table.nativeElement.focus() 
     }
 

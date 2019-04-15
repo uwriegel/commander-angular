@@ -3,16 +3,9 @@ import { ThemesService } from '../services/themes.service'
 import { Columns, ColumnsType } from '../columns/columns.component'
 import { ListItem } from '../pipes/virtual-list.pipe';
 import { TableViewComponent } from '../table-view/table-view.component';
+import { Processor } from '../processors/processor';
+import { DriveProcessor } from '../processors/drive-processor';
 const fs = (window as any).require('fs')
-const extfs = (window as any).require('extension-fs')
-interface FileItem {
-    displayName: string
-    size: number
-    time: Date
-    isDirectory: boolean
-    isHidden: boolean
-}
-const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
 
 @Component({
     selector: 'app-commander-view',
@@ -28,62 +21,66 @@ export class CommanderViewComponent implements OnInit {
     id = ""
     
     @Output() 
-    private gotFocus: EventEmitter<CommanderViewComponent> = new EventEmitter()    
-    
-    columns: Columns
+    gotFocus: EventEmitter<CommanderViewComponent> = new EventEmitter()    
 
+    processor: Processor
+    
     path = ""
     
-    get items() { return this._items}
-    set items(value: ListItem[]) { 
+    constructor(public themes: ThemesService) { 
+        this.processor = new DriveProcessor()
+    }
+
+    async ngOnInit() { 
         //this.undoRestriction()
-        this._items = value
-    }
-    private _items: ListItem[] = []
-
-    constructor(public themes: ThemesService) { }
-
-    ngOnInit() { 
-        this.columns = {
-            name: "directory",
-            values: [{
-                    columnsType: ColumnsType.String,
-                    isSortable: true,
-                    name: "Name"
-                }, {
-                    columnsType: ColumnsType.String,
-                    isSortable: true,
-                    name: "Erw."
-                }, {
-                    columnsType: ColumnsType.Date,
-                    isSortable: true,
-                    name: "Datum"
-                }, {
-                    columnsType: ColumnsType.Size,
-                    isSortable: true,
-                    name: "Größe"
-                }, {
-                    columnsType: ColumnsType.String,
-                    isSortable: true,
-                    name: "Version"
-                }
-            ]
-        }
-        this.get("c:\\windows")
+        await this.processor.get("root")
+        this.focus()
     }
 
-    onFocusIn() { this.gotFocus.emit(this) }
+    onFocusIn() { 
+        this.gotFocus.emit(this) 
+        this.focus()
+    }
 
     focus() { 
         this.tableView.focus() 
     }
 
-    private async get(path: string) {
-        path = fs.realpathSync(path)
-        this.path = path
-        const items = await getFiles(path) as any[]
-        this.items = items
-        this.focus()
-    }
-
+    onKeydown(evt: KeyboardEvent) {
+        switch (evt.which) {
+            // case 9: // TAB
+            //     if (evt.shiftKey) {
+            //         this.input.nativeElement.focus()
+            //         evt.stopPropagation()
+            //         evt.preventDefault()
+            //     }    
+            //     break
+            case 13: // Return
+                //this.processItem(evt.altKey ? ProcessItemType.Properties : (evt.ctrlKey ? ProcessItemType.StartAs : ProcessItemType.Show))
+                break
+            // case 32: // _                
+            //     this.toggleSelection(this.tableView.getCurrentItem())
+            //     break
+            // case 35: // End
+            //     if (evt.shiftKey) 
+            //         this.selectAllItems(this.tableView.getCurrentItemIndex(), false)
+            //     break
+            // case 36: // Pos1
+            //     if (evt.shiftKey) 
+            //         this.selectAllItems(this.tableView.getCurrentItemIndex(), true)
+            //     break                
+            // case 45: // Einfg
+            //     repeatKey(evt.repeat, () => {
+            //         if (this.toggleSelection(this.tableView.getCurrentItem()))
+            //             this.tableView.downOne()
+            //     })
+            //     break;
+            // case 107: // NUM +
+            //     this.selectAllItems(0, false)
+            //     break
+            // case 109: // NUM -
+            //     this.selectAllItems(0, true)
+            //     break                
+        }
+    }    
 }
