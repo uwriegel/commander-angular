@@ -5,7 +5,6 @@ import { ListItem } from '../pipes/virtual-list.pipe';
 import { TableViewComponent } from '../table-view/table-view.component';
 import { Processor } from '../processors/processor';
 import { DriveProcessor } from '../processors/drive-processor';
-const fs = (window as any).require('fs')
 
 @Component({
     selector: 'app-commander-view',
@@ -33,7 +32,7 @@ export class CommanderViewComponent implements OnInit {
 
     async ngOnInit() { 
         //this.undoRestriction()
-        await this.processor.get("root")
+        await this.processor.changePath(null)
         this.focus()
     }
 
@@ -57,6 +56,7 @@ export class CommanderViewComponent implements OnInit {
             //     break
             case 13: // Return
                 //this.processItem(evt.altKey ? ProcessItemType.Properties : (evt.ctrlKey ? ProcessItemType.StartAs : ProcessItemType.Show))
+                this.processItem()
                 break
             // case 32: // _                
             //     this.toggleSelection(this.tableView.getCurrentItem())
@@ -83,4 +83,18 @@ export class CommanderViewComponent implements OnInit {
             //     break                
         }
     }    
+
+    onDblClick(evt: MouseEvent) { 
+        if ((evt.target as HTMLElement).closest("td")) 
+            //this.processItem(evt.altKey ? ProcessItemType.Properties : (evt.ctrlKey ? ProcessItemType.StartAs : ProcessItemType.Show))
+            this.processItem()
+    }
+
+    private processItem()  {
+        const item = this.tableView.getCurrentItem()
+        this.processor = this.processor.getProcessor(item.name)
+        this.processor.changePath(item.name)
+        this.focus()
+    }
 }
+

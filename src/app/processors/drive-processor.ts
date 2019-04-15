@@ -1,4 +1,5 @@
 import { Processor } from './processor'
+import { DirectoryProcessor } from './directory-processor'
 import { ColumnsType } from '../columns/columns.component'
 import { ListItem } from '../pipes/virtual-list.pipe'
 const extfs = (window as any).require('extension-fs')
@@ -17,10 +18,11 @@ export interface DriveItem extends ListItem {
     type: DriveType 
     isMounted: boolean
 }
-
 const getDrives: ()=>Promise<DriveItem[]> = extfs.getDrives
 
 export class DriveProcessor implements Processor {
+    path = ""
+
     columns = {
         name: "drive",
         values: [{
@@ -41,7 +43,7 @@ export class DriveProcessor implements Processor {
 
     items: ListItem[]
 
-    async get(path: string) {
+    async changePath(newPath: string) {
         // path = fs.realpathSync(path)
         // this.path = path
         var result = (await getDrives()).filter(n => n.isMounted)
@@ -51,5 +53,9 @@ export class DriveProcessor implements Processor {
         // const items = await getFiles(path) as any[]
         // this.items = items
         // this.focus()
+    }
+
+    getProcessor(newPath: string) {
+        return new DirectoryProcessor()
     }
 }   

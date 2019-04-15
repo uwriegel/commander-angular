@@ -1,19 +1,15 @@
 import { Processor } from './processor'
 import { ColumnsType } from '../columns/columns.component'
 import { ListItem } from '../pipes/virtual-list.pipe'
+const fs = (window as any).require('fs')
 const extfs = (window as any).require('extension-fs')
-interface FileItem extends ListItem {
-    displayName: string
-    size: number
-    time: Date
-    isDirectory: boolean
-    isHidden: boolean
-}
-const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
+const getFiles: (path: string)=>Promise<ListItem[]> = extfs.getFiles
 
-export class DirctoryProcessor implements Processor {
+export class DirectoryProcessor implements Processor {
+    path = ""
+
     items: ListItem[]
-    
+
     columns = {
         name: "directory",
         values: [{
@@ -40,9 +36,14 @@ export class DirctoryProcessor implements Processor {
         ]
     }
 
-    async get(path: string) {
-        //path = fs.realpathSync(path)
-        // this.path = path
-        this.items = await getFiles(path) 
+    async changePath(newPath: string): Promise<void> {
+        this.path = this.path ? fs.realpathSync(this.path + '/' + newPath) : newPath
+        this.items = await getFiles(this.path) 
+        if (this.items.length > 0)
+            this.items[0].isCurrent = true
+    }
+    
+    getProcessor(newPath: string) {
+        return this
     }
 }

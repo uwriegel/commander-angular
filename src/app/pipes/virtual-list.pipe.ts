@@ -3,6 +3,7 @@ import { Observable, Subscriber } from 'rxjs'
 import { ScrollbarComponent } from '../scrollbar/scrollbar.component'
 
 export interface ListItem {
+    name: string
     isCurrent?: boolean
 }
 @Pipe({

@@ -1,19 +1,19 @@
 <div class="container" (focusin)="onFocusIn()" >
     <!-- <input #input value="{{currentPath}}" (change)="onInputChange()" (mouseup)="onMouseUp()" (keydown)="onInputKeydown($event)" appSelectAll > -->
     <app-table-view #tv class="tableView" [itemHeight]="themes.itemHeight" [columnHeight]="themes.columnHeight" [columns]="processor.columns" 
-        [items]="processor.items" [id]="id" tabindex="1" >
+        [items]="processor.items" [id]="id" tabindex="1" (dblclick)="onDblClick($event)" (keydown)="onKeydown($event)">
         <ng-container *ngFor="let item of processor.items | virtualList: (tv.scrollbar) | async" [ngSwitch]="processor.columns.name">
             
             <tr class="pointer-def" [class.isCurrent]="item.isCurrent" [class.isSelected]="item.isSelected" 
                 [class.isHidden]="item.isHidden" *ngSwitchCase="'directory'">
                 <td>
                     <div class="iconName">
-                        <img [src]="item.displayName | iconUrl: path | sanitize" alt="" *ngIf="item.isDirectory != true">
+                        <img [src]="item.name | iconUrl: path | sanitize" alt="" *ngIf="item.isDirectory != true">
                         <app-folder *ngIf="item.isDirectory"></app-folder>
-                        <span class="nameValue">{{item.displayName | fileName}}</span>
+                        <span class="nameValue">{{item.name | fileName}}</span>
                     </div>
                 </td>
-                <td>{{item.displayName | extension}}</td>
+                <td>{{item.name | extension}}</td>
                 <td>
                     <!-- [class.isExif]="item.isExif && column.columnsType == 2" -->
                     {{item.time | dateTime}}
