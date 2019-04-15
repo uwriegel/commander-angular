@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from '@angular/platform-browser-dynamic';
 //import {getFiles} from 'extension-fs'
 const process = (window as any).require('process')
 
@@ -10,7 +11,23 @@ interface FileItem {
     isDirectory: boolean
     isHidden: boolean
 }
+enum DriveType {
+	UNKNOWN,
+	HARDDRIVE,
+	ROM,
+	REMOVABLE,
+	NETWORK
+}
+interface DriveItem {
+    name: string
+    description: string
+    size: number
+    type: DriveType 
+    isMounted: boolean
+}
+
 const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
+const getDrives: ()=>Promise<DriveItem[]> = extfs.getDrives
 
 @Component({
     selector: 'app-getfiles',
@@ -21,8 +38,18 @@ export class GetfilesComponent {
 
     constructor() { }
 
+    async onGetDrives() {
+        let drives = await getDrives()
+        if (drives[0].type == 2) {
+            console.log("Is harddrive")
+        }
+        console.log(drives)
+    }
+
     async onGet(url: string) {
+
         
+
         let hrstart = process.hrtime()
         const items = await getFiles(url)
         let diff = process.hrtime(hrstart)
