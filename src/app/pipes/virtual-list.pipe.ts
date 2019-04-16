@@ -5,6 +5,7 @@ import { ScrollbarComponent } from '../scrollbar/scrollbar.component'
 export interface ListItem {
     name: string
     isCurrent?: boolean
+    isSelected?: boolean
 }
 @Pipe({
     name: 'virtualList'

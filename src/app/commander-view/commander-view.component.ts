@@ -9,6 +9,7 @@ import { Observable, fromEvent } from 'rxjs'
 import { filter, map } from 'rxjs/operators'
 import { ListItem } from '../pipes/virtual-list.pipe'
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { repeatKey } from '../functional/scrolling';
 
 @Component({
     selector: 'app-commander-view',
@@ -123,29 +124,29 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
                 //this.processItem(evt.altKey ? ProcessItemType.Properties : (evt.ctrlKey ? ProcessItemType.StartAs : ProcessItemType.Show))
                 this.processItem()
                 break
-            // case 32: // _                
-            //     this.toggleSelection(this.tableView.getCurrentItem())
-            //     break
-            // case 35: // End
-            //     if (evt.shiftKey) 
-            //         this.selectAllItems(this.tableView.getCurrentItemIndex(), false)
-            //     break
-            // case 36: // Pos1
-            //     if (evt.shiftKey) 
-            //         this.selectAllItems(this.tableView.getCurrentItemIndex(), true)
-            //     break                
-            // case 45: // Einfg
-            //     repeatKey(evt.repeat, () => {
-            //         if (this.toggleSelection(this.tableView.getCurrentItem()))
-            //             this.tableView.downOne()
-            //     })
-            //     break;
-            // case 107: // NUM +
-            //     this.selectAllItems(0, false)
-            //     break
-            // case 109: // NUM -
-            //     this.selectAllItems(0, true)
-            //     break                
+            case 32: // _                
+                this.toggleSelection(this.tableView.getCurrentItem())
+                break
+            case 35: // End
+                if (evt.shiftKey) 
+                    this.selectAllItems(this.tableView.getCurrentItemIndex(), false)
+                break
+            case 36: // Pos1
+                if (evt.shiftKey) 
+                    this.selectAllItems(this.tableView.getCurrentItemIndex(), true)
+                break                
+            case 45: // Einfg
+                repeatKey(evt.repeat, () => {
+                    if (this.toggleSelection(this.tableView.getCurrentItem()))
+                        this.tableView.downOne()
+                })
+                break;
+            case 107: // NUM +
+                this.selectAllItems(0, false)
+                break
+            case 109: // NUM -
+                this.selectAllItems(0, true)
+                break                
         }
     }    
 
@@ -202,6 +203,37 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
 
     private setValue(id: string, value: string) {
         localStorage[this.id + '-' + id] = value
+    }
+
+    private toggleSelection(item: ListItem) {
+        let result = false
+        if (this.isItemSelectable(item)) {
+            item.isSelected = !item.isSelected
+            result = true
+        }
+  //      this.selectionChanged()
+        return result
+    }
+
+    private selectAllItems(currentItemIndex: number, above: boolean) {
+        this.tableView.getAllItems().forEach((item, index) => {
+            item.isSelected = this.isItemSelectable(item) 
+                ? above ? index <= currentItemIndex : index >= currentItemIndex ? this.isItemSelectable(item) : false
+                : false
+        })
+        // this.selectionChanged()
+    }
+
+    private isItemSelectable(item: ListItem) {
+        if (item.name == "..")
+            return false
+        // switch (item.itemType) {
+        //     case ItemType.Parent:
+        //     case ItemType.Drive:
+        //         return false
+        //     default:
+            return true
+//        }
     }
 
     private initializeRestrict() {
