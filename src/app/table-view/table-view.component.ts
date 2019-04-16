@@ -46,7 +46,6 @@ export class TableViewComponent {
     }
 
     onFocusIn(evt: Event) {
-        console.log("Fokus innen")
     }
 
     focus() { 

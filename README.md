@@ -8,7 +8,6 @@ run ```ng run electron```
 ## TODOs
 * ShowHidden
 * Sorting
-* Path input
 * Restrict
 * Version
 * Exif

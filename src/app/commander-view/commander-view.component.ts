@@ -1,9 +1,9 @@
-import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core'
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef } from '@angular/core'
 import { ThemesService } from '../services/themes.service'
 import { TableViewComponent } from '../table-view/table-view.component'
 import { Processor } from '../processors/processor'
 import { DriveProcessor } from '../processors/drive-processor'
-import { DirectoryProcessor } from '../processors/directory-processor';
+import { DirectoryProcessor } from '../processors/directory-processor'
 
 @Component({
     selector: 'app-commander-view',
@@ -14,6 +14,9 @@ export class CommanderViewComponent implements OnInit {
 
     @ViewChild(TableViewComponent) 
     private tableView: TableViewComponent
+
+    @ViewChild("input") 
+    private input: ElementRef
 
     @Input() 
     id = ""
@@ -40,13 +43,18 @@ export class CommanderViewComponent implements OnInit {
 
     async ngOnInit() { 
         //this.undoRestriction()
-        await this.changePath(this.path)
-        this.focus()
+        
+        setTimeout(() => this.changePath(this.path))
     }
 
     onFocusIn() { 
         this.gotFocus.emit(this) 
         this.focus()
+    }
+
+    onInputFocusIn(evt: Event) { 
+        evt.stopPropagation()
+        evt.preventDefault()
     }
 
     focus() { 
@@ -57,13 +65,14 @@ export class CommanderViewComponent implements OnInit {
 
     onKeydown(evt: KeyboardEvent) {
         switch (evt.which) {
-            // case 9: // TAB
-            //     if (evt.shiftKey) {
-            //         this.input.nativeElement.focus()
-            //         evt.stopPropagation()
-            //         evt.preventDefault()
-            //     }    
-            //     break
+            case 9: // TAB
+                if (evt.shiftKey) {
+                    this.input.nativeElement.focus()
+                    setTimeout(() => this.input.nativeElement.select())
+                    evt.stopPropagation()
+                    evt.preventDefault()
+                }    
+                break
             case 13: // Return
                 //this.processItem(evt.altKey ? ProcessItemType.Properties : (evt.ctrlKey ? ProcessItemType.StartAs : ProcessItemType.Show))
                 this.processItem()
@@ -100,10 +109,28 @@ export class CommanderViewComponent implements OnInit {
             this.processItem()
     }
 
+    onInputChange() {
+        this.changePath(this.input.nativeElement.value)
+    }
+
+    onMouseUp() {
+        setTimeout(() => this.input.nativeElement.select())
+    }
+
+    onInputKeydown(evt: KeyboardEvent) {
+        switch (evt.which) {
+            case 9: // TAB
+                this.focus()
+                evt.stopPropagation()
+                evt.preventDefault()
+                break
+        }
+    }   
+
     changePath(path: string) {
         if (!this.processor.isProcessorFromPath(path)) 
             this.processor = path == "root" ? new DriveProcessor() : new DirectoryProcessor()
-        this.path = this.processor.correctPath(this.path)
+        this.path = this.processor.correctPath(path)
         this.processor.changePath(this.path)
         this.focus()
     }

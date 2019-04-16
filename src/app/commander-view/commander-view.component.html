@@ -1,5 +1,5 @@
 <div class="container" (focusin)="onFocusIn()">
-    <!-- <input #input value="{{currentPath}}" (change)="onInputChange()" (mouseup)="onMouseUp()" (keydown)="onInputKeydown($event)" appSelectAll > -->
+    <input #input value="{{path}}" (focusin)="onInputFocusIn($event)" (change)="onInputChange()" (mouseup)="onMouseUp()" (keydown)="onInputKeydown($event)" appSelectAll >
     <app-table-view #tv class="tableView" [itemHeight]="themes.itemHeight" [columnHeight]="themes.columnHeight" [columns]="processor.columns" 
         [items]="processor.items" [id]="id" tabindex="1" (dblclick)="onDblClick($event)" (keydown)="onKeydown($event)">
         <ng-container *ngFor="let item of processor.items | virtualList: (tv.scrollbar) | async" [ngSwitch]="processor.columns.name">
