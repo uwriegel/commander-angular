@@ -1,7 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core'
 import { ThemesService } from '../services/themes.service'
-import { Columns, ColumnsType } from '../columns/columns.component'
-import { ListItem } from '../pipes/virtual-list.pipe'
 import { TableViewComponent } from '../table-view/table-view.component'
 import { Processor } from '../processors/processor'
 import { DriveProcessor } from '../processors/drive-processor'
@@ -25,7 +23,16 @@ export class CommanderViewComponent implements OnInit {
 
     processor: Processor
     
-    path = "root"
+    get path() { 
+        if (!this._path)
+            this._path = this.getValue("recentPath", "root")
+        return this._path 
+    } 
+    set path(value: string) {
+        this.setValue("recentPath", value)
+        this._path = value
+    }
+    private _path = ""
     
     constructor(public themes: ThemesService) { 
         this.processor = new DriveProcessor()
@@ -111,6 +118,15 @@ export class CommanderViewComponent implements OnInit {
             this.processor.changePath(this.path, recentPath)
             this.focus()
         }
+    }
+
+    private getValue(id: string, fallback?: string) {
+        const result = localStorage[this.id + '-' + id]
+        return result ? result : fallback
+    }
+
+    private setValue(id: string, value: string) {
+        localStorage[this.id + '-' + id] = value
     }
 }
 
