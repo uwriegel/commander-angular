@@ -1,14 +1,18 @@
 import { Pipe, PipeTransform } from '@angular/core'
+import { ListItem } from './virtual-list.pipe'
 
 @Pipe({
     name: 'extension'
 })
 export class ExtensionPipe implements PipeTransform {
 
-    transform(name: string): string {
-        const pos = name.lastIndexOf('.')
-        if (pos == -1 || name == "..")
+    transform(item: ListItem): string {
+        if ((item as any).isDirectory)
             return ""
-        return name.substring(pos)
+
+        const pos = item.name.lastIndexOf('.')
+        if (pos == -1)
+            return ""
+        return item.name.substring(pos)
     }
 }

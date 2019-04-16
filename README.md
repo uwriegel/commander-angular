@@ -6,8 +6,13 @@ run ```npm install```, then ```./node_modules/.bin/electron-rebuild.cmd```
 ### Norml builds
 run ```ng run electron```
 ## TODOs
-* Drives: with usb cdrom, network drives
-* Drive and DirectoryProcessor
+* save current path
+* ShowHidden
+* Sorting
+* Path input
+* Restrict
+* Version
+* Exif
 * Mouse wheel zoom
 * Adapt zoom level in menue
 

@@ -1,15 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core'
+import { ListItem } from './virtual-list.pipe'
 
 @Pipe({
     name: 'fileName'
 })
 export class FileNamePipe implements PipeTransform {
-    transform(name: string): string {
-        const pos = name.lastIndexOf('.')
+    transform(item: ListItem): string {
+        if ((item as any).isDirectory)
+            return item.name
+        const pos = item.name.lastIndexOf('.')
         if (pos == -1)
-            return name
-        if (name == "..")
-            return name;
-        return name.substring(0, pos)    
+            return item.name
+        return item.name.substring(0, pos)    
     }
 }

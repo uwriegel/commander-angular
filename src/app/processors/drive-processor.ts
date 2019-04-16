@@ -40,10 +40,19 @@ export class DriveProcessor implements Processor {
 
     items: ListItem[]
 
-    async changePath(newPath: string) {
+    async changePath(newPath: string, recentPath?: string) {
         var result = (await getDrives()).filter(n => n.isMounted)
-        if (result.length > 0)
-            result[0].isCurrent = true
+        if (result.length > 0) {
+            if (recentPath) {
+                const recentItem = result.find(n => n.name == recentPath)
+                if (recentItem)
+                    recentItem.isCurrent = true
+                else
+                    result[0].isCurrent = true
+            }
+            else
+                result[0].isCurrent = true
+        }
         this.items =  result
     }
 

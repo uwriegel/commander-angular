@@ -54,15 +54,30 @@ export class DirectoryProcessor implements Processor {
         return path ? fs.realpathSync(path + '/' + item.name) : item.name
     }
 
-    async changePath(newPath: string): Promise<void> {
+    async changePath(newPath: string, recentPath?: string): Promise<void> {
         const items = await getFiles(newPath) 
         let dirs = items.filter(n => n.isDirectory)
         let files = items.filter(n => !n.isDirectory)
         if (dirs.length == 0 || dirs[0].name != "..")
             dirs = [ {name: "..", isDirectory: true, isRoot: true  } as FileItem].concat(dirs)
         this.items = dirs.concat(files)
-        if (this.items.length > 0)
-            this.items[0].isCurrent = true
+        if (this.items.length > 0) {
+            if (recentPath) {
+                if (recentPath == "root")
+                    this.items[0].isCurrent = true    
+                else if (recentPath > newPath) {
+                    let relativePath = recentPath.substr(newPath.length)
+                    if (relativePath.startsWith("\\"))
+                        relativePath = relativePath.substr(1)
+                    const previousItem = this.items.find(n => n.name == relativePath)
+                    previousItem.isCurrent = true
+                }
+                else
+                    this.items[0].isCurrent = true
+            }
+            else
+                this.items[0].isCurrent = true
+        }
     }
     
     processItem(path: string, item: FileItem) { 

@@ -10,10 +10,10 @@
                     <div class="iconName">
                         <img [src]="item.name | iconUrl: path | sanitize" alt="" *ngIf="item.isDirectory != true">
                         <app-folder *ngIf="item.isDirectory"></app-folder>
-                        <span class="nameValue">{{item.name | fileName}}</span>
+                        <span class="nameValue">{{item | fileName}}</span>
                     </div>
                 </td>
-                <td>{{item.name | extension}}</td>
+                <td>{{item | extension}}</td>
                 <td>
                     <!-- [class.isExif]="item.isExif && column.columnsType == 2" -->
                     {{item.time | dateTime}}

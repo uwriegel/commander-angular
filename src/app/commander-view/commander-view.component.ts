@@ -102,12 +102,13 @@ export class CommanderViewComponent implements OnInit {
     }
 
     private processItem()  {
+        const recentPath = this.path
         const item = this.tableView.getCurrentItem()
         if (!this.processor.processItem(this.path, item)) {
             if (!this.processor.isProcessor(item))
                 this.processor = (item as any).isRoot ? new DriveProcessor() : new DirectoryProcessor()
             this.path = this.processor.correctPath(this.path, item.name)
-            this.processor.changePath(this.path)
+            this.processor.changePath(this.path, recentPath)
             this.focus()
         }
     }

@@ -6,7 +6,7 @@ export interface Processor {
     items: ListItem[]
     correctPath(path: string, newPath?: string): string
     getNewPath(path: string, item: ListItem): string
-    changePath(newPath: string): Promise<void>
+    changePath(newPath: string, recentPath?: string): Promise<void>
     isProcessor(item: ListItem): boolean
     isProcessorFromPath(path: string): boolean
     processItem(path: string, item: ListItem): boolean
