@@ -1,6 +1,7 @@
 import { Processor } from './processor'
 import { ColumnsType } from '../columns/columns.component'
 import { ListItem } from '../pipes/virtual-list.pipe'
+import { SettingsService } from '../services/settings.service';
 const fs = (window as any).require('fs')
 const extfs = (window as any).require('extension-fs')
 const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
@@ -43,6 +44,8 @@ export class DirectoryProcessor implements Processor {
         ]
     }
 
+    constructor(private settings: SettingsService) {}
+
     correctPath(path: string, newPath?: string) {
         path = newPath ? (path == "root" ? newPath : path + '/' + newPath) : path
         return fs.realpathSync(path)
@@ -60,7 +63,8 @@ export class DirectoryProcessor implements Processor {
         let files = items.filter(n => !n.isDirectory)
         if (dirs.length == 0 || dirs[0].name != "..")
             dirs = [ {name: "..", isDirectory: true, isRoot: true  } as FileItem].concat(dirs)
-        this.items = dirs.concat(files)
+        this.rawItems = dirs.concat(files)
+        this.items = this.settings.showHidden ? this.rawItems : this.rawItems.filter(n => !(n as any).isHidden)
         if (this.items.length > 0) {
             if (recentPath) {
                 if (recentPath == "root")
@@ -91,4 +95,16 @@ export class DirectoryProcessor implements Processor {
     isProcessorFromPath(path: string) {
         return path != "root"
     }
+    
+    refreshView() {
+        this.items = this.settings.showHidden ? this.rawItems : this.rawItems.filter(n => !(n as any).isHidden)
+        if (this.items.length > 0 && !this.items.find(n => n.isCurrent)) {
+            const current = this.rawItems.find(n => n.isCurrent)
+            current.isCurrent = false
+            this.items[0].isCurrent = true
+        }
+
+    }
+
+    private rawItems: ListItem[]
 }

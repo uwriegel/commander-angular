@@ -73,4 +73,6 @@ export class DriveProcessor implements Processor {
     isProcessorFromPath(path: string) {
         return path == "root"
     }
+    
+    refreshView() {}
 }   

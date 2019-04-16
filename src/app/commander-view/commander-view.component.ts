@@ -4,6 +4,7 @@ import { TableViewComponent } from '../table-view/table-view.component'
 import { Processor } from '../processors/processor'
 import { DriveProcessor } from '../processors/drive-processor'
 import { DirectoryProcessor } from '../processors/directory-processor'
+import { SettingsService } from '../services/settings.service'
 
 @Component({
     selector: 'app-commander-view',
@@ -21,6 +22,11 @@ export class CommanderViewComponent implements OnInit {
     @Input() 
     id = ""
     
+    @Input() 
+    set showHidden(value: boolean) {
+        this.processor.refreshView()
+    }
+
     @Output() 
     gotFocus: EventEmitter<CommanderViewComponent> = new EventEmitter()    
 
@@ -37,7 +43,7 @@ export class CommanderViewComponent implements OnInit {
     }
     private _path = ""
     
-    constructor(public themes: ThemesService) { 
+    constructor(public themes: ThemesService, private settings: SettingsService) { 
         this.processor = new DriveProcessor()
     }
 
@@ -129,7 +135,7 @@ export class CommanderViewComponent implements OnInit {
 
     changePath(path: string) {
         if (!this.processor.isProcessorFromPath(path)) 
-            this.processor = path == "root" ? new DriveProcessor() : new DirectoryProcessor()
+            this.processor = path == "root" ? new DriveProcessor() : new DirectoryProcessor(this.settings)
         this.path = this.processor.correctPath(path)
         this.processor.changePath(this.path)
         this.focus()
@@ -140,7 +146,7 @@ export class CommanderViewComponent implements OnInit {
         const item = this.tableView.getCurrentItem()
         if (!this.processor.processItem(this.path, item)) {
             if (!this.processor.isProcessor(item))
-                this.processor = (item as any).isRoot ? new DriveProcessor() : new DirectoryProcessor()
+                this.processor = (item as any).isRoot ? new DriveProcessor() : new DirectoryProcessor(this.settings)
             this.path = this.processor.correctPath(this.path, item.name)
             this.processor.changePath(this.path, recentPath)
             this.focus()

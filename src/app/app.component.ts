@@ -1,5 +1,6 @@
 import { Component, ElementRef } from '@angular/core'
 import { ThemesService } from './services/themes.service'
+import { SettingsService } from './services/settings.service';
 const electron = (window as any).require('electron')
 const ipcRenderer = electron.ipcRenderer
 
@@ -15,13 +16,17 @@ const ipcRenderer = electron.ipcRenderer
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    constructor(private themes: ThemesService, appElement: ElementRef<HTMLElement>) {
+    constructor(private themes: ThemesService, private settings: SettingsService, appElement: ElementRef<HTMLElement>) {
         this.themes.initialize(appElement.nativeElement)
 
         ipcRenderer.send("getTheme")
 
         ipcRenderer.on("theme", (event , data)=> {
             this.themes.theme = data
+        })
+
+        ipcRenderer.on("showHidden", (event , data)=> {
+            this.settings.showHidden = data
         })
     }
 }

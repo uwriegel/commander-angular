@@ -5,6 +5,7 @@ import { getIcon } from 'extension-fs'
 import * as settings from 'electron-settings'
 
 const THEME = "theme"
+const SHOWHIDDEN = "showHidden"
 const themeBlue = "blue"
 const themeLightBlue = "lightblue"
 const themeDark = "dark"
@@ -149,7 +150,7 @@ const createWindow = function() {
                 label: '&Versteckte Dateien',
                 accelerator: "Ctrl+H",
                 type: "checkbox",
-                //click: evt => mainWindow.webContents.send("showHidden", evt.checked)
+                click: evt => win.webContents.send(SHOWHIDDEN, evt.checked)
             },
             {
                 label: '&Aktualisieren',

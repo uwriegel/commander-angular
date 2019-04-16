@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ViewChild } from '@angular/core'
 import { CommanderViewComponent as Commander } from '../../commander-view/commander-view.component'
+import { SettingsService } from 'src/app/services/settings.service';
 
 @Component({
     selector: 'app-commander-view-test',
@@ -12,7 +13,7 @@ export class CommanderViewTestComponent implements AfterViewInit {
 
     ngAfterViewInit() { this.commander.focus() }
 
-    constructor() {}
+    constructor(public settings: SettingsService) {}
 }
 
 
