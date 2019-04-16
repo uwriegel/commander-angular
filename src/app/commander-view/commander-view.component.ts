@@ -1,17 +1,49 @@
-import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef } from '@angular/core'
+import { Component, OnInit, Output, EventEmitter, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core'
 import { ThemesService } from '../services/themes.service'
 import { TableViewComponent } from '../table-view/table-view.component'
 import { Processor } from '../processors/processor'
 import { DriveProcessor } from '../processors/drive-processor'
 import { DirectoryProcessor } from '../processors/directory-processor'
 import { SettingsService } from '../services/settings.service'
+import { Observable, fromEvent } from 'rxjs'
+import { filter, map } from 'rxjs/operators'
+import { ListItem } from '../pipes/virtual-list.pipe'
+import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
     selector: 'app-commander-view',
     templateUrl: './commander-view.component.html',
-    styleUrls: ['./commander-view.component.css']
+    styleUrls: ['./commander-view.component.css'],
+    animations: [
+        trigger('flyInOut', [
+            state('in', style({
+                opacity: 0,
+                width: '0%',
+                height: '0px'    
+            })),
+            transition(":enter", [
+                style({
+                    opacity: 0,
+                    width: '0%',
+                    height: '0px'    
+                }),
+                animate("0.3s ease-out", style({
+                    opacity: 1,
+                    width: '70%',
+                    height: '15px'
+                }))
+            ]),
+            transition(':leave', [
+                animate("0.3s ease-in", style({
+                    opacity: 0,
+                    width: '0%',
+                    height: '0px'    
+                }))
+            ])
+        ])    
+    ]    
 })
-export class CommanderViewComponent implements OnInit {
+export class CommanderViewComponent implements OnInit, AfterViewInit {
 
     @ViewChild(TableViewComponent) 
     private tableView: TableViewComponent
@@ -24,11 +56,14 @@ export class CommanderViewComponent implements OnInit {
     
     @Input() 
     set showHidden(value: boolean) {
+        this.undoRestriction()
         this.processor.refreshView()
     }
 
     @Output() 
     gotFocus: EventEmitter<CommanderViewComponent> = new EventEmitter()    
+
+    restrictValue = ""
 
     processor: Processor
     
@@ -47,10 +82,15 @@ export class CommanderViewComponent implements OnInit {
         this.processor = new DriveProcessor()
     }
 
+    undoRestriction = () => {}
+    
     async ngOnInit() { 
-        //this.undoRestriction()
-        
         setTimeout(() => this.changePath(this.path))
+    }
+
+    ngAfterViewInit() {
+        this.keyDownEvents = fromEvent(this.tableView.table.nativeElement, "keydown") 
+        this.undoRestriction = this.initializeRestrict() 
     }
 
     onFocusIn() { 
@@ -134,6 +174,7 @@ export class CommanderViewComponent implements OnInit {
     }   
 
     changePath(path: string) {
+        this.undoRestriction()
         if (!this.processor.isProcessorFromPath(path)) 
             this.processor = path == "root" ? new DriveProcessor() : new DirectoryProcessor(this.settings)
         this.path = this.processor.correctPath(path)
@@ -142,6 +183,7 @@ export class CommanderViewComponent implements OnInit {
     }
 
     private processItem()  {
+        this.undoRestriction()
         const recentPath = this.path
         const item = this.tableView.getCurrentItem()
         if (!this.processor.processItem(this.path, item)) {
@@ -161,5 +203,46 @@ export class CommanderViewComponent implements OnInit {
     private setValue(id: string, value: string) {
         localStorage[this.id + '-' + id] = value
     }
+
+    private initializeRestrict() {
+        const inputChars = this.keyDownEvents.pipe(filter(n => !n.altKey && !n.ctrlKey && !n.shiftKey && n.key.length > 0 && n.key.length < 2))
+        const backSpaces = this.keyDownEvents.pipe(filter(n => n.which == 8))
+        const escapes = this.keyDownEvents.pipe(filter(n => n.which == 27))
+        let originalItems: ListItem[]
+        
+        inputChars.subscribe(evt => {
+            const items = this.processor.items.filter(n => n.name.toLowerCase().startsWith(this.restrictValue + evt.key))
+            if (items.length > 0) {
+                this.restrictValue += evt.key
+                if (!originalItems)
+                    originalItems = this.processor.items
+                this.processor.items.forEach(n => n.isCurrent = false)    
+                this.processor.items = items
+                items[0].isCurrent = true
+                //this.onCurrentIndexChanged(0)
+                this.tableView.focus()
+            }
+        })
+        backSpaces.subscribe(() => {
+            if (this.restrictValue.length > 0) {
+                this.restrictValue = this.restrictValue.substr(0, this.restrictValue.length - 1);
+                const items = originalItems.filter(n => n.name.toLowerCase().startsWith(this.restrictValue));
+                this.processor.items = items
+            }
+        })
+
+        const undoRestriction = () => {
+            if (originalItems) {
+                this.processor.items = originalItems
+                originalItems = null
+                this.restrictValue = ""
+            }
+        }
+
+        escapes.subscribe(() => undoRestriction())
+        return undoRestriction
+    }
+
+    private keyDownEvents: Observable<KeyboardEvent>
 }
 

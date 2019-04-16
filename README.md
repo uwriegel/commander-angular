@@ -6,7 +6,7 @@ run ```npm install```, then ```./node_modules/.bin/electron-rebuild.cmd```
 ### Norml builds
 run ```ng run electron```
 ## TODOs
-* Restrict
+* Select
 * Version
 * Exif
 * Sorting
