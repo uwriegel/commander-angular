@@ -8,6 +8,8 @@ export class FileNamePipe implements PipeTransform {
         const pos = name.lastIndexOf('.')
         if (pos == -1)
             return name
+        if (name == "..")
+            return name;
         return name.substring(0, pos)    
     }
 }

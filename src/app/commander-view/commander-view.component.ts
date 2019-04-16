@@ -1,10 +1,11 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild } from '@angular/core'
 import { ThemesService } from '../services/themes.service'
 import { Columns, ColumnsType } from '../columns/columns.component'
-import { ListItem } from '../pipes/virtual-list.pipe';
-import { TableViewComponent } from '../table-view/table-view.component';
-import { Processor } from '../processors/processor';
-import { DriveProcessor } from '../processors/drive-processor';
+import { ListItem } from '../pipes/virtual-list.pipe'
+import { TableViewComponent } from '../table-view/table-view.component'
+import { Processor } from '../processors/processor'
+import { DriveProcessor } from '../processors/drive-processor'
+import { DirectoryProcessor } from '../processors/directory-processor';
 
 @Component({
     selector: 'app-commander-view',
@@ -24,7 +25,7 @@ export class CommanderViewComponent implements OnInit {
 
     processor: Processor
     
-    path = ""
+    path = "root"
     
     constructor(public themes: ThemesService) { 
         this.processor = new DriveProcessor()
@@ -32,7 +33,7 @@ export class CommanderViewComponent implements OnInit {
 
     async ngOnInit() { 
         //this.undoRestriction()
-        await this.processor.changePath(null)
+        await this.changePath(this.path)
         this.focus()
     }
 
@@ -44,6 +45,8 @@ export class CommanderViewComponent implements OnInit {
     focus() { 
         this.tableView.focus() 
     }
+
+    onResize() { this.tableView.onResize() }
 
     onKeydown(evt: KeyboardEvent) {
         switch (evt.which) {
@@ -90,11 +93,23 @@ export class CommanderViewComponent implements OnInit {
             this.processItem()
     }
 
+    changePath(path: string) {
+        if (!this.processor.isProcessorFromPath(path)) 
+            this.processor = path == "root" ? new DriveProcessor() : new DirectoryProcessor()
+        this.path = this.processor.correctPath(this.path)
+        this.processor.changePath(this.path)
+        this.focus()
+    }
+
     private processItem()  {
         const item = this.tableView.getCurrentItem()
-        this.processor = this.processor.getProcessor(item.name)
-        this.processor.changePath(item.name)
-        this.focus()
+        if (!this.processor.processItem(this.path, item)) {
+            if (!this.processor.isProcessor(item))
+                this.processor = (item as any).isRoot ? new DriveProcessor() : new DirectoryProcessor()
+            this.path = this.processor.correctPath(this.path, item.name)
+            this.processor.changePath(this.path)
+            this.focus()
+        }
     }
 }
 
