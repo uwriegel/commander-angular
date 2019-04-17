@@ -1,11 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 interface FileItem {
-    displayName: string
     size: number
-    time: Date
     isDirectory: boolean
-    isHidden: boolean
 }
 
 @Pipe({

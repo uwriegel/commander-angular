@@ -19,6 +19,7 @@
                     {{item.time | dateTime}}
                 </td>
                 <td class="size">{{item | fileSize}}</td>
+                <td>{{item.version | version}}</td>
             </tr>
             
             <tr class="pointer-def" [class.isCurrent]="item.isCurrent" [class.isSelected]="item.isSelected" 

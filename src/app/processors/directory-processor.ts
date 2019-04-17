@@ -5,14 +5,22 @@ import { SettingsService } from '../services/settings.service';
 const fs = (window as any).require('fs')
 const extfs = (window as any).require('extension-fs')
 const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
+const getFileVersion: (file: string)=>Promise<VersionInfo> = extfs.getFileVersion
+
+interface VersionInfo {
+    major: number
+    minor: number
+    build: number
+    patch: number
+}
 
 interface FileItem extends ListItem{
-    displayName: string
-    size: number
-    time: Date
     isDirectory: boolean
     isHidden: boolean
     isRoot?: boolean
+    size: number
+    time: Date
+    version?: VersionInfo
 }
 
 export class DirectoryProcessor implements Processor {
@@ -64,6 +72,18 @@ export class DirectoryProcessor implements Processor {
         if (dirs.length == 0 || dirs[0].name != "..")
             dirs = [ {name: "..", isDirectory: true, isRoot: true  } as FileItem].concat(dirs)
         this.rawItems = dirs.concat(files)
+
+        const getVersion = async function (fileItem: FileItem, file: string) {
+            const version = await getFileVersion(file) 
+            if (version.major != 0 || version.minor != 0 || version.build != 0 || version.patch != 0)
+                fileItem.version = version
+        }
+
+        setTimeout(() => files.forEach(async n => {
+            const file = newPath + '\\' + n.name
+            getVersion(n, file)
+        }))
+
         this.items = this.settings.showHidden ? this.rawItems : this.rawItems.filter(n => !(n as any).isHidden)
         if (this.items.length > 0) {
             if (recentPath) {
