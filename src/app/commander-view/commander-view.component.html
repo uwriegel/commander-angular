@@ -14,8 +14,7 @@
                     </div>
                 </td>
                 <td>{{item | extension}}</td>
-                <td>
-                    <!-- [class.isExif]="item.isExif && column.columnsType == 2" -->
+                <td [class.isExif]="item.isExifDate">
                     {{item.time | dateTime}}
                 </td>
                 <td class="size">{{item | fileSize}}</td>

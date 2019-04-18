@@ -6,6 +6,7 @@ const fs = (window as any).require('fs')
 const extfs = (window as any).require('extension-fs')
 const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
 const getFileVersion: (file: string)=>Promise<VersionInfo> = extfs.getFileVersion
+const getExifDate: (file: string)=>Promise<Date> = extfs.getExifDate
 
 interface VersionInfo {
     major: number
@@ -21,6 +22,7 @@ interface FileItem extends ListItem{
     size: number
     time: Date
     version?: VersionInfo
+    isExifDate?: boolean
 }
 
 export class DirectoryProcessor implements Processor {
@@ -79,9 +81,18 @@ export class DirectoryProcessor implements Processor {
                 fileItem.version = version
         }
 
+        const getExif = async function (fileItem: FileItem, file: string) {
+            const exifDate = await getExifDate(file)
+            if (exifDate) {
+                fileItem.time = exifDate
+                fileItem.isExifDate = true
+            }
+        }
+
         setTimeout(() => files.forEach(async n => {
             const file = newPath + '\\' + n.name
             getVersion(n, file)
+            getExif(n, file)
         }))
 
         this.items = this.settings.showHidden ? this.rawItems : this.rawItems.filter(n => !(n as any).isHidden)
