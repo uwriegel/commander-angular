@@ -91,8 +91,11 @@ export class DirectoryProcessor implements Processor {
 
         setTimeout(() => files.forEach(async n => {
             const file = newPath + '\\' + n.name
-            getVersion(n, file)
-            getExif(n, file)
+            var checkName = n.name.toLowerCase()
+            if (checkName.endsWith(".exe") || checkName.endsWith(".dll"))
+                getVersion(n, file)
+            else if (checkName.endsWith(".jpg"))
+                getExif(n, file)
         }))
 
         this.items = this.settings.showHidden ? this.rawItems : this.rawItems.filter(n => !(n as any).isHidden)
