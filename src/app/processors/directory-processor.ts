@@ -7,6 +7,7 @@ const extfs = (window as any).require('extension-fs')
 const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
 const getFileVersion: (file: string)=>Promise<VersionInfo> = extfs.getFileVersion
 const getExifDate: (file: string)=>Promise<Date> = extfs.getExifDate
+const addExtendedInfos: (path: string, fileItems: FileItem[])=> Promise<any> = extfs.addExtendedInfos
 
 interface VersionInfo {
     major: number
@@ -75,28 +76,30 @@ export class DirectoryProcessor implements Processor {
             dirs = [ {name: "..", isDirectory: true, isRoot: true  } as FileItem].concat(dirs)
         this.rawItems = dirs.concat(files)
 
-        const getVersion = async function (fileItem: FileItem, file: string) {
-            const version = await getFileVersion(file) 
-            if (version.major != 0 || version.minor != 0 || version.build != 0 || version.patch != 0)
-                fileItem.version = version
-        }
+        // const getVersion = async function (fileItem: FileItem, file: string) {
+        //     const version = await getFileVersion(file) 
+        //     if (version.major != 0 || version.minor != 0 || version.build != 0 || version.patch != 0)
+        //         fileItem.version = version
+        // }
 
-        const getExif = async function (fileItem: FileItem, file: string) {
-            const exifDate = await getExifDate(file)
-            if (exifDate) {
-                fileItem.time = exifDate
-                fileItem.isExifDate = true
-            }
-        }
+        // const getExif = async function (fileItem: FileItem, file: string) {
+        //     const exifDate = await getExifDate(file)
+        //     if (exifDate) {
+        //         fileItem.time = exifDate
+        //         fileItem.isExifDate = true
+        //     }
+        // }
 
-        setTimeout(() => files.forEach(async n => {
-            const file = newPath + '\\' + n.name
-            var checkName = n.name.toLowerCase()
-            if (checkName.endsWith(".exe") || checkName.endsWith(".dll"))
-                getVersion(n, file)
-            else if (checkName.endsWith(".jpg"))
-                getExif(n, file)
-        }))
+        setTimeout(async () => addExtendedInfos(newPath, items))
+
+        // setTimeout(() => files.forEach(async n => {
+        //     const file = newPath + '\\' + n.name
+        //     var checkName = n.name.toLowerCase()
+        //     if (checkName.endsWith(".exe") || checkName.endsWith(".dll"))
+        //         getVersion(n, file)
+        //     else if (checkName.endsWith(".jpg"))
+        //         getExif(n, file)
+        // }))
 
         this.items = this.settings.showHidden ? this.rawItems : this.rawItems.filter(n => !(n as any).isHidden)
         if (this.items.length > 0) {

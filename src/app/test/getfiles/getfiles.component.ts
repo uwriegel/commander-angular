@@ -4,6 +4,7 @@ import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a 
 const process = (window as any).require('process')
 
 const extfs = (window as any).require('extension-fs')
+
 interface FileItem {
     displayName: string
     size: number
@@ -39,11 +40,14 @@ export class GetfilesComponent {
     constructor() { }
 
     async onGetDrives() {
-        let drives = await getDrives()
-        if (drives[0].type == 2) {
-            console.log("Is harddrive")
-        }
-        console.log(drives)
+
+        const affe = extfs.hello()
+
+        // let drives = await getDrives()
+        // if (drives[0].type == 2) {
+        //     console.log("Is harddrive")
+        // }
+        // console.log(drives)
     }
 
     async onGet(url: string) {
