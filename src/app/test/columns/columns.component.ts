@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { IColumnSortEvent, ColumnsType } from '../../columns/columns.component'
+import { ColumnSortSettings, ColumnsType } from '../../columns/columns.component'
 import { Columns } from 'src/app/columns/columns.component'
 
 @Component({
@@ -58,7 +58,7 @@ export class TestColumnsComponent {
         }
     }
 
-    onSort(sortEvent: IColumnSortEvent) {
+    onSort(sortEvent: ColumnSortSettings) {
         console.log(`Sorting: ${sortEvent.index} ascending: ${sortEvent.ascending}`)
     }
 }

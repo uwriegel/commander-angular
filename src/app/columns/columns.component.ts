@@ -17,7 +17,7 @@ export interface Columns {
     values: Column[]
 }
 
-export interface IColumnSortEvent {
+export interface ColumnSortSettings {
     index: number,
     ascending: boolean
 }
@@ -31,7 +31,7 @@ export class ColumnsComponent {
     constructor(private renderer: Renderer2) {}
 
     @Input() id = ""
-    @Output() onSort: EventEmitter<IColumnSortEvent> = new EventEmitter()    
+    @Output() onSort: EventEmitter<ColumnSortSettings> = new EventEmitter()    
     @ViewChild("columnsRow") columnsRow: ElementRef
     @ViewChildren("th") 
     get ths() { return this._ths }

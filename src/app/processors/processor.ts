@@ -1,7 +1,5 @@
-import { Columns, IColumnSortEvent } from '../columns/columns.component'
+import { Columns, ColumnSortSettings } from '../columns/columns.component'
 import { ListItem } from '../pipes/virtual-list.pipe'
-import { refreshDescendantViews } from '@angular/core/src/render3/instructions';
-import { setRootDomAdapter } from '@angular/platform-browser/src/dom/dom_adapter';
 
 export interface Processor {
     columns: Columns
@@ -13,5 +11,5 @@ export interface Processor {
     isProcessorFromPath(path: string): boolean
     processItem(path: string, item: ListItem): boolean
     refreshView(): any
-    sort(evt: IColumnSortEvent): any
+    sort(evt: ColumnSortSettings): any
 }

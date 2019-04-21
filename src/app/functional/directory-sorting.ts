@@ -1,4 +1,4 @@
-import { IColumnSortEvent } from '../columns/columns.component'
+import { ColumnSortSettings } from '../columns/columns.component'
 import { ExtensionPipe } from '../pipes/extension.pipe'
 import { FileItem } from '../processors/directory-processor'
 import { match } from './match'
@@ -32,7 +32,7 @@ const sortVersion = (a: FileItem, b: FileItem) => {
            : 0
 }
 
-export const sort = (items: FileItem[], sorting: IColumnSortEvent) => {
+export const sort = (items: FileItem[], sorting: ColumnSortSettings) => {
     const direction = (n: number) => sorting.ascending ? n : -n
     
     const sort = match({

@@ -1,5 +1,5 @@
 import { Processor } from './processor'
-import { ColumnsType, IColumnSortEvent } from '../columns/columns.component'
+import { ColumnsType, ColumnSortSettings } from '../columns/columns.component'
 import { ListItem } from '../pipes/virtual-list.pipe'
 import { SettingsService } from '../services/settings.service'
 import { sort as sortFileItems } from '../functional/directory-sorting'
@@ -146,7 +146,7 @@ export class DirectoryProcessor implements Processor {
         }
     }
 
-    sort(evt: IColumnSortEvent) {
+    sort(evt: ColumnSortSettings) {
         this.sorting = evt
         this.refreshView()
     }
@@ -160,5 +160,5 @@ export class DirectoryProcessor implements Processor {
     }
 
     private rawItems: FileItem[]
-    private sorting: IColumnSortEvent
+    private sorting: ColumnSortSettings
 }

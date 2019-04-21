@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
-import { IColumnSortEvent, Columns, ColumnsType } from '../../columns/columns.component'
+import { ColumnSortSettings, Columns, ColumnsType } from '../../columns/columns.component'
 import { ThemesService } from 'src/app/services/themes.service'
 import { TableViewComponent as TableView } from '../../table-view/table-view.component'
 import { ListItem } from 'src/app/pipes/virtual-list.pipe'
@@ -76,8 +76,7 @@ export class TableViewTestComponent implements OnInit {
         this.tableView.focus()
     }
 
-    onSort(sortEvent: IColumnSortEvent) {
-        //this.commander.sort(sortEvent.index, sortEvent.ascending)
+    onSort(sortEvent: ColumnSortSettings) {
     }
 
     createFolder(text: string) {
