@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ɵangular_packages_platform_browser_dynamic_platform_browser_dynamic_a } from '@angular/platform-browser-dynamic';
 //import {getFiles} from 'extension-fs'
 const process = (window as any).require('process')
 
@@ -40,14 +39,11 @@ export class GetfilesComponent {
     constructor() { }
 
     async onGetDrives() {
-
-        const affe = extfs.hello()
-
-        // let drives = await getDrives()
-        // if (drives[0].type == 2) {
-        //     console.log("Is harddrive")
-        // }
-        // console.log(drives)
+        let drives = await getDrives()
+        if (drives[0].type == 2) {
+            console.log("Is harddrive")
+        }
+        console.log(drives)
     }
 
     async onGet(url: string) {

@@ -1,5 +1,5 @@
 import { Processor } from './processor'
-import { ColumnsType } from '../columns/columns.component'
+import { ColumnsType, IColumnSortEvent } from '../columns/columns.component'
 import { ListItem } from '../pipes/virtual-list.pipe'
 const extfs = (window as any).require('extension-fs')
 
@@ -75,4 +75,6 @@ export class DriveProcessor implements Processor {
     }
     
     refreshView() {}
+    
+    sort(evt: IColumnSortEvent) {}
 }   

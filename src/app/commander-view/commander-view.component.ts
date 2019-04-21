@@ -10,6 +10,7 @@ import { filter, map } from 'rxjs/operators'
 import { ListItem } from '../pipes/virtual-list.pipe'
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { repeatKey } from '../functional/scrolling';
+import { IColumnSortEvent } from '../columns/columns.component'
 
 @Component({
     selector: 'app-commander-view',
@@ -181,6 +182,11 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
         this.path = this.processor.correctPath(path)
         this.processor.changePath(this.path)
         this.focus()
+    }
+
+    onColumnSort(evt: IColumnSortEvent) {
+        console.log("Spaltensortierung", evt)
+        this.processor.sort(evt)
     }
 
     private processItem()  {

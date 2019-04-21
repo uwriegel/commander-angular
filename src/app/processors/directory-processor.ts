@@ -1,13 +1,13 @@
 import { Processor } from './processor'
-import { ColumnsType } from '../columns/columns.component'
+import { ColumnsType, IColumnSortEvent } from '../columns/columns.component'
 import { ListItem } from '../pipes/virtual-list.pipe'
-import { SettingsService } from '../services/settings.service';
+import { SettingsService } from '../services/settings.service'
+import { sort as sortFileItems } from '../functional/directory-sorting'
 const fs = (window as any).require('fs')
 const extfs = (window as any).require('extension-fs')
 const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
 const getFileVersion: (file: string)=>Promise<VersionInfo> = extfs.getFileVersion
 const getExifDate: (file: string)=>Promise<Date> = extfs.getExifDate
-const addExtendedInfos: (path: string, fileItems: FileItem[])=> Promise<any> = extfs.addExtendedInfos
 
 interface VersionInfo {
     major: number
@@ -16,7 +16,7 @@ interface VersionInfo {
     patch: number
 }
 
-interface FileItem extends ListItem{
+export interface FileItem extends ListItem{
     isDirectory: boolean
     isHidden: boolean
     isRoot?: boolean
@@ -138,14 +138,27 @@ export class DirectoryProcessor implements Processor {
     }
     
     refreshView() {
-        this.items = this.settings.showHidden ? this.rawItems : this.rawItems.filter(n => !(n as any).isHidden)
+        this.items = this.sortItems(this.settings.showHidden ? this.rawItems : this.rawItems.filter(n => !(n as any).isHidden))
         if (this.items.length > 0 && !this.items.find(n => n.isCurrent)) {
             const current = this.rawItems.find(n => n.isCurrent)
             current.isCurrent = false
             this.items[0].isCurrent = true
         }
-
     }
 
-    private rawItems: ListItem[]
+    sort(evt: IColumnSortEvent) {
+        this.sorting = evt
+        this.refreshView()
+    }
+
+    private sortItems(itemsToSort: FileItem[]) {
+        if (!this.sorting) 
+            return itemsToSort
+        let dirs = itemsToSort.filter(n => n.isDirectory)
+        let files = sortFileItems(itemsToSort.filter(n => !n.isDirectory), this.sorting)
+        return dirs.concat(files)
+    }
+
+    private rawItems: FileItem[]
+    private sorting: IColumnSortEvent
 }

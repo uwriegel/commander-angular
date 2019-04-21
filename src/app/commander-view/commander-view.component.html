@@ -1,7 +1,7 @@
 <div class="container" (focusin)="onFocusIn()">
     <input #input value="{{path}}" (focusin)="onInputFocusIn($event)" (change)="onInputChange()" (mouseup)="onMouseUp()" (keydown)="onInputKeydown($event)" appSelectAll >
     <app-table-view #tv class="tableView" [itemHeight]="themes.itemHeight" [columnHeight]="themes.columnHeight" [columns]="processor.columns" 
-        [items]="processor.items" [id]="id" tabindex="1" (dblclick)="onDblClick($event)" (keydown)="onKeydown($event)">
+        [items]="processor.items" (onSort)="onColumnSort($event)" [id]="id" tabindex="1" (dblclick)="onDblClick($event)" (keydown)="onKeydown($event)">
         <ng-container *ngFor="let item of processor.items | virtualList: (tv.scrollbar) | async" [ngSwitch]="processor.columns.name">
             
             <tr class="pointer-def" [class.isCurrent]="item.isCurrent" [class.isSelected]="item.isSelected" 
@@ -37,5 +37,5 @@
     <input class="restrictor" *ngIf="restrictValue.length" @flyInOut value="{{restrictValue}}" disabled>
 </div>
 
-<!--  (onSort)="onColumnSort($event)" (onCurrentIndexChanged)="onCurrentIndexChanged($event)" 
+<!--   (onCurrentIndexChanged)="onCurrentIndexChanged($event)" 
 (focus)="onFocus()" (click)="onClick($event)" (dblclick)="onDblClick($event)" (keydown)="onKeydown($event)"> -->
