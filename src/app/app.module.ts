@@ -24,6 +24,8 @@ import { IconUrlPipe } from './pipes/icon-url.pipe';
 import { CommanderViewComponent } from './commander-view/commander-view.component';
 import { CommanderViewTestComponent } from './test/commander-view-test/commander-view-test.component';
 import { VersionPipe } from './pipes/version.pipe';
+import { GridSplitterComponent } from './grid-splitter/grid-splitter.component';
+import { GridComponent } from './test/grid-splitter-test/grid-splitter-test.component';
 
 @NgModule({
     declarations: [
@@ -49,6 +51,9 @@ import { VersionPipe } from './pipes/version.pipe';
         CommanderViewComponent,
         CommanderViewTestComponent,
         VersionPipe,
+        GridComponent,
+        GridSplitterComponent,
+        GridComponent,
     ],
     imports: [
         BrowserModule,
