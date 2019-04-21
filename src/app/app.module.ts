@@ -26,6 +26,10 @@ import { CommanderViewTestComponent } from './test/commander-view-test/commander
 import { VersionPipe } from './pipes/version.pipe';
 import { GridSplitterComponent } from './grid-splitter/grid-splitter.component';
 import { GridComponent } from './test/grid-splitter-test/grid-splitter-test.component';
+import { DialogComponent } from './dialog/dialog.component';
+import { DialogComponent as DialogTestComponent } from './test/dialog-test/dialog-test.component';
+import { DefaultButtonDirective } from './directives/default-button.directive';
+import { SelectAllDirective } from './directives/select-all.directive';
 
 @NgModule({
     declarations: [
@@ -54,6 +58,10 @@ import { GridComponent } from './test/grid-splitter-test/grid-splitter-test.comp
         GridComponent,
         GridSplitterComponent,
         GridComponent,
+        DialogComponent,
+        DialogTestComponent,
+        DefaultButtonDirective,
+        SelectAllDirective,
     ],
     imports: [
         BrowserModule,
