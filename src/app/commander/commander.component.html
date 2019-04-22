@@ -1,8 +1,8 @@
 <app-grid-splitter [isVertical]="true" [isLastVisible]="isViewVisible" (onRatioChanged)="onRatioChanged()" (window:resize)="onResize()">
     <app-grid-splitter class="first">
-        <app-commander-view [id]="'left'" [dialog]="dialog"
+        <app-commander-view [id]="'left'" [dialog]="dialog" [showHidden]="settings.showHidden"
                             #leftView class="first" (gotFocus)="gotFocus($event)"></app-commander-view>
-        <app-commander-view [id]="'right'" [dialog]="dialog"
+        <app-commander-view [id]="'right'" [dialog]="dialog" [showHidden]="settings.showHidden"
                             #rightView class="last" (gotFocus)="gotFocus($event)"></app-commander-view>
     </app-grid-splitter>
     <!-- <app-viewer class="viewer last" [viewerRatio]="viewerRatio"  [item]="focusedView?.currentItem" [isViewVisible]="isViewVisible"></app-viewer> -->

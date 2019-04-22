@@ -6,16 +6,14 @@
         <tr class="pointer-def" [class.isCurrent]="item.isCurrent" [class.isSelected]="item.isSelected" 
             [class.isHidden]="item.isHidden">
             <div class="iconName">
-                <img [src]="item.displayName | iconUrl: path | sanitize" alt="" *ngIf="item.isDirectory != true">
+                <img [src]="item.name | iconUrl: path | sanitize" alt="" *ngIf="item.isDirectory != true">
                 <app-folder *ngIf="item.isDirectory"></app-folder>
-                <!-- <app-drive *ngIf="item.icon == 'Drive'"></app-drive> -->
-                <span class="nameValue">{{item.displayName | fileName}}</span>
+                <span class="nameValue">{{item.name | fileName}}</span>
             </div>
             <td>
-                {{item.displayName | extension}}
+                {{item.name | extension}}
             </td>
             <td>
-                <!-- [class.isExif]="item.isExif && column.columnsType == 2" -->
                 {{item.time | dateTime}}
             </td>
             <td class="size">

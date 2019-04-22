@@ -1,6 +1,7 @@
 import { Component, ViewChild, OnInit, HostListener, AfterViewInit, Input, ElementRef } from '@angular/core'
 import { CommanderViewComponent } from '../commander-view/commander-view.component'
 import { DialogComponent } from '../dialog/dialog.component'
+import { SettingsService } from '../services/settings.service';
 
 @Component({
     selector: 'app-commander',
@@ -44,7 +45,7 @@ export class CommanderComponent implements OnInit, AfterViewInit {
         //     this.viewerRatio = (this.viewer.appElement.nativeElement as HTMLElement).clientHeight / document.body.clientHeight
     }
 
-//constructor(private zone: NgZone) { commander = this }
+    constructor(public settings: SettingsService) {}
 
     ngOnInit() { }
 
