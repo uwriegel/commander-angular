@@ -31,6 +31,8 @@ import { DialogComponent as DialogTestComponent } from './test/dialog-test/dialo
 import { DefaultButtonDirective } from './directives/default-button.directive';
 import { SelectAllDirective } from './directives/select-all.directive';
 import { CommanderComponent } from './commander/commander.component';
+import { ViewerComponent } from './viewers/viewer/viewer.component';
+import { ImageViewerComponent } from './viewers/image-viewer/image-viewer.component';
 
 @NgModule({
     declarations: [
@@ -64,6 +66,8 @@ import { CommanderComponent } from './commander/commander.component';
         DefaultButtonDirective,
         SelectAllDirective,
         CommanderComponent,
+        ViewerComponent,
+        ImageViewerComponent,
     ],
     imports: [
         BrowserModule,
