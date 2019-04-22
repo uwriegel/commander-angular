@@ -6,11 +6,12 @@ import { DriveProcessor } from '../processors/drive-processor'
 import { DirectoryProcessor } from '../processors/directory-processor'
 import { SettingsService } from '../services/settings.service'
 import { Observable, fromEvent } from 'rxjs'
-import { filter, map } from 'rxjs/operators'
+import { filter } from 'rxjs/operators'
 import { ListItem } from '../pipes/virtual-list.pipe'
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { trigger, state, style, transition, animate } from '@angular/animations'
 import { repeatKey } from '../functional/scrolling';
 import { ColumnSortSettings } from '../columns/columns.component'
+import { DialogComponent } from '../dialog/dialog.component'
 
 @Component({
     selector: 'app-commander-view',
@@ -47,11 +48,8 @@ import { ColumnSortSettings } from '../columns/columns.component'
 })
 export class CommanderViewComponent implements OnInit, AfterViewInit {
 
-    @ViewChild(TableViewComponent) 
-    private tableView: TableViewComponent
-
-    @ViewChild("input") 
-    private input: ElementRef
+    @Input()
+    dialog: DialogComponent    
 
     @Input() 
     id = ""
@@ -61,6 +59,12 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
         this.undoRestriction()
         this.processor.refreshView()
     }
+
+    @ViewChild(TableViewComponent) 
+    private tableView: TableViewComponent
+
+    @ViewChild("input") 
+    private input: ElementRef
 
     @Output() 
     gotFocus: EventEmitter<CommanderViewComponent> = new EventEmitter()    
