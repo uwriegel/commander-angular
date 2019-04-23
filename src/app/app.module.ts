@@ -33,6 +33,8 @@ import { SelectAllDirective } from './directives/select-all.directive';
 import { CommanderComponent } from './commander/commander.component';
 import { ViewerComponent } from './viewers/viewer/viewer.component';
 import { ImageViewerComponent } from './viewers/image-viewer/image-viewer.component';
+import { ViewerTestComponent } from './test/viewer-test/viewer-test.component';
+import { FrameViewerComponent } from './viewers/frame-viewer/frame-viewer.component';
 
 @NgModule({
     declarations: [
@@ -68,6 +70,8 @@ import { ImageViewerComponent } from './viewers/image-viewer/image-viewer.compon
         CommanderComponent,
         ViewerComponent,
         ImageViewerComponent,
+        ViewerTestComponent,
+        FrameViewerComponent,
     ],
     imports: [
         BrowserModule,

@@ -3,9 +3,11 @@ import * as path from "path"
 import * as url from "url"
 import { getIcon } from 'extension-fs'
 import * as settings from 'electron-settings'
+import * as fs from 'fs'
 
 const THEME = "theme"
 const SHOWHIDDEN = "showHidden"
+const PREVIEW = "preview"
 const themeBlue = "blue"
 const themeLightBlue = "lightblue"
 const themeDark = "dark"
@@ -28,7 +30,20 @@ const createWindow = function() {
     }, (error) => {
         if (error) console.error('Failed to register protocol', error)
     })
-
+    protocol.registerBufferProtocol('getfile', async (request, callback) => {
+        const url = request.url
+        var file = decodeURIComponent(url.substr(10))
+        if (file.toLowerCase().endsWith(".jpg")) 
+            fs.readFile(file, (_, data) => {
+                callback({mimeType: 'img/png', data: data})
+            })
+        else if (file.toLowerCase().endsWith(".pdf")) 
+            fs.readFile(file, (_, data) => {
+                callback({mimeType: 'application/pdf', data: data})
+            })
+    }, (error) => {
+        if (error) console.error('Failed to register protocol', error)
+    })
     const bounds = JSON.parse(settings.get("window-bounds", JSON.stringify({ 
         width: 800,
         height: 600,
@@ -164,7 +179,7 @@ const createWindow = function() {
                 label: '&Vorschau',
                 type: "checkbox",
                 accelerator: "F3",
-                //click: evt => mainWindow.webContents.send("preview", evt.checked)
+                click: evt => win.webContents.send(PREVIEW, evt.checked)
             },
             {
                 type: 'separator'

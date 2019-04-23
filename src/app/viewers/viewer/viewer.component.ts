@@ -38,16 +38,9 @@ export class ViewerComponent implements OnInit {
                 || this.item.toLowerCase().endsWith(".jpeg")
 
 
-            // TODO: PDF test in another browser
-            this.isFrame = this.item.toLowerCase().endsWith(".pdf")
+//            this.isFrame = this.item.toLowerCase().endsWith(".pdf")
 
-            this.file = "file?path=" + this.item
-
-            // TODO: PDF test in another browser
-            //if (this.item.toLowerCase().endsWith(".pdf"))
-            //    Viewer.setFile(this.item)
-            //else
-            //    Viewer.setFile(null)
+            this.file = "getfile://" + this.item
         }
         else {
             this.isImage = null

@@ -2,6 +2,8 @@ import { Component, ViewChild, OnInit, HostListener, AfterViewInit, Input, Eleme
 import { CommanderViewComponent } from '../commander-view/commander-view.component'
 import { DialogComponent } from '../dialog/dialog.component'
 import { SettingsService } from '../services/settings.service';
+const electron = (window as any).require('electron')
+const ipcRenderer = electron.ipcRenderer
 
 @Component({
     selector: 'app-commander',
@@ -45,7 +47,13 @@ export class CommanderComponent implements OnInit, AfterViewInit {
         //     this.viewerRatio = (this.viewer.appElement.nativeElement as HTMLElement).clientHeight / document.body.clientHeight
     }
 
-    constructor(public settings: SettingsService) {}
+    constructor(public settings: SettingsService) {
+        ipcRenderer.on("preview", (event , data)=> {
+            if (data) {
+
+            }
+        })
+    }
 
     ngOnInit() { }
 
