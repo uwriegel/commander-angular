@@ -35,6 +35,10 @@ const createWindow = function() {
         var file = decodeURIComponent(url.substr(10))
         if (file.toLowerCase().endsWith(".jpg")) 
             fs.readFile(file, (_, data) => {
+                callback({mimeType: 'img/jpg', data: data})
+            })
+        else if (file.toLowerCase().endsWith(".png")) 
+            fs.readFile(file, (_, data) => {
                 callback({mimeType: 'img/png', data: data})
             })
         else if (file.toLowerCase().endsWith(".pdf")) 

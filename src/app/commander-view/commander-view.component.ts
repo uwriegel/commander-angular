@@ -83,6 +83,8 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
         this._path = value
     }
     private _path = ""
+
+    currentItem = ""
     
     constructor(public themes: ThemesService, private settings: SettingsService) { 
         this.processor = new DriveProcessor()
@@ -111,6 +113,10 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
 
     focus() { 
         this.tableView.focus() 
+    }
+
+    onCurrentIndexChanged(evt: number) {
+        this.currentItem = this.path + '\\' + this.tableView.getCurrentItem().name
     }
 
     onResize() { this.tableView.onResize() }
