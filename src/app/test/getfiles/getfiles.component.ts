@@ -44,6 +44,10 @@ export class GetfilesComponent {
             console.log("Is harddrive")
         }
         console.log(drives)
+
+
+        const addon = (window as any).require('bindings')('addon.node')
+        console.table(addon.getFilesSync("c:\\windows"))
     }
 
     async onGet(url: string) {

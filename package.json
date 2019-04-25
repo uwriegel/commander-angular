@@ -13,6 +13,7 @@
     "e2e": "ng e2e"
   },
   "private": true,
+  "gypfile": true,
   "dependencies": {
     "@angular/animations": "^7.2.13",
     "@angular/common": "^7.2.13",
@@ -24,6 +25,7 @@
     "@angular/router": "^7.2.13",
     "core-js": "^2.5.4",
     "electron-settings": "^3.2.0",
+    "bindings": "~1.2.1",
     "extension-fs": "^0.9.2",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
