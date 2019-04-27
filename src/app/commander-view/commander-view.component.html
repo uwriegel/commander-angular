@@ -1,4 +1,4 @@
-<div class="container" (focusin)="onFocusIn()" >
+<div class="container" (focusin)="onFocusIn()" (focusout)="onFocusOut()" >
     <input #input value="{{path}}" (focusin)="onInputFocusIn($event)" (change)="onInputChange()" (mouseup)="onMouseUp()" (keydown)="onInputKeydown($event)" appSelectAll >
     <app-table-view #tv class="tableView" [itemHeight]="themes.itemHeight" [columnHeight]="themes.columnHeight" [columns]="processor.columns" 
         [items]="processor.items" (onSort)="onColumnSort($event)" [id]="id" tabindex="1" (dblclick)="onDblClick($event)" (keydown)="onKeydown($event)"

@@ -91,7 +91,7 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
     }
 
     undoRestriction = () => {}
-    
+
     async ngOnInit() { 
         setTimeout(() => this.changePath(this.path))
     }
@@ -101,9 +101,27 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
         this.undoRestriction = this.initializeRestrict() 
     }
 
+    selectAllItems(currentItemIndex: number, above: boolean) {
+        this.tableView.getAllItems().forEach((item, index) => {
+            item.isSelected = this.isItemSelectable(item) 
+                ? above ? index <= currentItemIndex : index >= currentItemIndex ? this.isItemSelectable(item) : false
+                : false
+        })
+        // this.selectionChanged()
+    }
+
+    refresh() {
+        this.changePath(this.path)
+    }
+
     onFocusIn() { 
         this.gotFocus.emit(this) 
         this.focus()
+        this.isFocused = true
+    }
+
+    onFocusOut() {
+        this.isFocused = false
     }
 
     onInputFocusIn(evt: Event) { 
@@ -152,12 +170,6 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
                         this.tableView.downOne()
                 })
                 break;
-            case 107: // NUM +
-                this.selectAllItems(0, false)
-                break
-            case 109: // NUM -
-                this.selectAllItems(0, true)
-                break                
         }
     }    
 
@@ -186,12 +198,14 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
     }   
 
     changePath(path: string) {
+        const focus = this.isFocused
         this.undoRestriction()
         if (!this.processor.isProcessorFromPath(path)) 
             this.processor = path == "root" ? new DriveProcessor() : new DirectoryProcessor(this.settings)
         this.path = this.processor.correctPath(path)
         this.processor.changePath(this.path)
-        this.focus()
+        if (focus)
+            this.focus()
     }
 
     onColumnSort(evt: ColumnSortSettings) {
@@ -229,15 +243,6 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
         }
   //      this.selectionChanged()
         return result
-    }
-
-    private selectAllItems(currentItemIndex: number, above: boolean) {
-        this.tableView.getAllItems().forEach((item, index) => {
-            item.isSelected = this.isItemSelectable(item) 
-                ? above ? index <= currentItemIndex : index >= currentItemIndex ? this.isItemSelectable(item) : false
-                : false
-        })
-        // this.selectionChanged()
     }
 
     private isItemSelectable(item: ListItem) {
@@ -292,5 +297,6 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
     }
 
     private keyDownEvents: Observable<KeyboardEvent>
+    private isFocused
 }
 

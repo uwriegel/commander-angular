@@ -33,11 +33,23 @@ export class CommanderComponent implements OnInit, AfterViewInit {
     }
 
     constructor(public settings: SettingsService, private zone: NgZone) {
-        ipcRenderer.on("preview", (event , on)=> {
+        ipcRenderer.on("preview", (event, on)=> {
             this.zone.run(() => this.isViewVisible = on)
         })
+        ipcRenderer.on("selectAll", () => {
+            this.zone.run(() => this.focusedView.selectAllItems(0, false))
+        })
+        ipcRenderer.on("deselectAll", () => {
+            this.zone.run(() => this.focusedView.selectAllItems(0, true))
+        })
+        ipcRenderer.on("refresh", () => {
+            this.zone.run(() => this.focusedView.refresh())
+        })
+        ipcRenderer.on("adaptPath", () => {
+            this.zone.run(() => this.getOtherView().changePath(this.focusedView.path))
+        })
     }
-
+    
     ngOnInit() { }
 
     ngAfterViewInit() { 
@@ -67,6 +79,10 @@ export class CommanderComponent implements OnInit, AfterViewInit {
     onRatioChanged() {
         this.leftView.onResize()
         this.rightView.onResize()
+    }
+
+    private getOtherView() {
+        return this.leftView == this.focusedView ? this.rightView : this.leftView
     }
 }
 

@@ -8,6 +8,10 @@ import * as fs from 'fs'
 const THEME = "theme"
 const SHOWHIDDEN = "showHidden"
 const PREVIEW = "preview"
+const SELECT_ALL = "selectAll"
+const DESELECT_ALL = "deselectAll"
+const REFRESH = "refresh"
+const ADAPT_PATH = "adaptPath"
 const themeBlue = "blue"
 const themeLightBlue = "lightblue"
 const themeDark = "dark"
@@ -132,7 +136,7 @@ const createWindow = function() {
             },            
             {
                 label: '&Eigenschaften',
-                accelerator: "Alt+Enter"
+                accelerator: "Alt+Return"
             },
             {
                 type: 'separator'
@@ -151,16 +155,21 @@ const createWindow = function() {
             },
             {
                 label: '&Gleichen Ordner öffnen',
-                accelerator: 'F9'
+                accelerator: 'F9',
+                click: evt => win.webContents.send(ADAPT_PATH)
             }
         ]},
         {
             label: '&Selektion',
             submenu: [{
-                label: '&Alles'
+                label: '&Alles',
+                accelerator: 'numadd',
+                click: evt => win.webContents.send(SELECT_ALL)
             },
             {
-                label: 'Alle &deselektieren'
+                label: 'Alle &deselektieren',
+                accelerator: 'numsub',
+                click: evt => win.webContents.send(DESELECT_ALL)
             }
         ]},
         {
@@ -174,7 +183,7 @@ const createWindow = function() {
             {
                 label: '&Aktualisieren',
                 accelerator: "Ctrl+R",
-                //click: evt => mainWindow.webContents.send("darkTheme", evt.checked)
+                click: evt => win.webContents.send(REFRESH)
             },
             {
                 type: 'separator'
