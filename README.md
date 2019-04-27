@@ -10,7 +10,8 @@ run ```npm update```
 run ```ng run electron```
 ## TODOs
 * File and Directory Properties
-* Run files
+* Run/RunAs
+* CreateFolder
 * Some jpg files have invalid exif dates
 * Mouse wheel zoom
 * Adapt zoom level in menue

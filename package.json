@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^7.2.14",
     "@angular/router": "^7.2.14",
     "bindings": "~1.2.1",
+    "node-addon-api": "*",
     "core-js": "^2.5.4",
     "electron-settings": "^3.2.0",
     "extension-fs": "^0.10.1",

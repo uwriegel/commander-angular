@@ -47,7 +47,7 @@ export class GetfilesComponent {
 
 
         const addon = (window as any).require('bindings')('addon.node')
-        console.table(addon.getFilesSync("c:\\windows"))
+        addon.showInfo("C:\\Program Files\\nodejs\\node.exe")
     }
 
     async onGet(url: string) {
