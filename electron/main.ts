@@ -4,7 +4,9 @@ import * as url from "url"
 import { getIcon } from 'extension-fs'
 import * as settings from 'electron-settings'
 import * as fs from 'fs'
+const addon = require('bindings')('addon.node')
 
+const PROPERTIES = "properties"
 const THEME = "theme"
 const SHOWHIDDEN = "showHidden"
 const PREVIEW = "preview"
@@ -67,9 +69,10 @@ const createWindow = function() {
     if (settings.get("isMaximized"))
         win.maximize()
 
-    ipcMain.on("getTheme", (_, __) => {
+    ipcMain.on("getTheme", (evt, arg) => {
         setTheme(settings.get("theme"))
     })
+    ipcMain.on("showInfo", (evt, arg) => addon.showInfo(arg))
     
     win.loadURL(
         url.format({
@@ -136,7 +139,8 @@ const createWindow = function() {
             },            
             {
                 label: '&Eigenschaften',
-                accelerator: "Alt+Return"
+                accelerator: "Alt+Return",
+                click: evt => win.webContents.send(PROPERTIES)
             },
             {
                 type: 'separator'

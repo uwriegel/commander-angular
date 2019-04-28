@@ -150,8 +150,8 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
                 }    
                 break
             case 13: // Return
-                //this.processItem(evt.altKey ? ProcessItemType.Properties : (evt.ctrlKey ? ProcessItemType.StartAs : ProcessItemType.Show))
-                this.processItem()
+                if (!evt.altKey && !evt.ctrlKey)
+                    this.processItem()
                 break
             case 32: // _                
                 this.toggleSelection(this.tableView.getCurrentItem())

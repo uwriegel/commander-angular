@@ -31,8 +31,9 @@ export class CommanderComponent implements OnInit, AfterViewInit {
     checkConflicts(conflicts: any) {
         console.log("CheckConflicts", conflicts)
     }
-
+    
     constructor(public settings: SettingsService, private zone: NgZone) {
+        ipcRenderer.on("properties", () => ipcRenderer.send("showInfo", this.focusedView.currentItem))
         ipcRenderer.on("preview", (event, on)=> {
             this.zone.run(() => this.isViewVisible = on)
         })
