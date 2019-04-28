@@ -1,12 +1,12 @@
 import { app, BrowserWindow, Menu, protocol, ipcMain } from "electron"
 import * as path from "path"
 import * as url from "url"
-import { getIcon } from 'extension-fs'
+import { getIcon, open, openAs, showInfo } from 'extension-fs'
 import * as settings from 'electron-settings'
 import * as fs from 'fs'
-const addon = require('bindings')('addon.node')
 
 const PROPERTIES = "properties"
+const OPEN_WITH = "openWith"
 const THEME = "theme"
 const SHOWHIDDEN = "showHidden"
 const PREVIEW = "preview"
@@ -72,7 +72,9 @@ const createWindow = function() {
     ipcMain.on("getTheme", (evt, arg) => {
         setTheme(settings.get("theme"))
     })
-    ipcMain.on("showInfo", (evt, arg) => addon.showInfo(arg))
+    ipcMain.on("showInfo", (evt, arg) => showInfo(arg))
+    ipcMain.on("open", (evt, arg) => open(arg))
+    ipcMain.on("openWith", (evt, arg) => openAs(arg))
     
     win.loadURL(
         url.format({
@@ -141,6 +143,11 @@ const createWindow = function() {
                 label: '&Eigenschaften',
                 accelerator: "Alt+Return",
                 click: evt => win.webContents.send(PROPERTIES)
+            },
+            {
+                label: 'Öffnen &mit',
+                accelerator: "Ctrl+Return",
+                click: evt => win.webContents.send(OPEN_WITH)
             },
             {
                 type: 'separator'

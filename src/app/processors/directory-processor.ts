@@ -8,6 +8,7 @@ const extfs = (window as any).require('extension-fs')
 const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
 const getFileVersion: (file: string)=>Promise<VersionInfo> = extfs.getFileVersion
 const getExifDate: (file: string)=>Promise<Date> = extfs.getExifDate
+const electron = (window as any).require('electron')
 
 interface VersionInfo {
     major: number
@@ -126,7 +127,12 @@ export class DirectoryProcessor implements Processor {
     }
     
     processItem(path: string, item: FileItem) { 
-        return !item.isDirectory
+        if (!item.isDirectory) {
+            electron.ipcRenderer.send("open", path + "\\" + item.name)
+            return true
+        }
+        else
+            return false
     }
 
     isProcessor(item: FileItem) {
