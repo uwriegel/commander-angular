@@ -1,7 +1,7 @@
 import { app, BrowserWindow, Menu, protocol, ipcMain } from "electron"
 import * as path from "path"
 import * as url from "url"
-import { getIcon, open, openAs, showInfo } from 'extension-fs'
+import { getIcon, open, openAs, showInfo, createDirectory } from 'extension-fs'
 import * as settings from 'electron-settings'
 import * as fs from 'fs'
 
@@ -13,6 +13,7 @@ const PREVIEW = "preview"
 const SELECT_ALL = "selectAll"
 const DESELECT_ALL = "deselectAll"
 const REFRESH = "refresh"
+const CREATE_FOLDER = "createfolder"
 const ADAPT_PATH = "adaptPath"
 const themeBlue = "blue"
 const themeLightBlue = "lightblue"
@@ -75,6 +76,7 @@ const createWindow = function() {
     ipcMain.on("showInfo", (evt, arg) => showInfo(arg))
     ipcMain.on("open", (evt, arg) => open(arg))
     ipcMain.on("openWith", (evt, arg) => openAs(arg))
+    ipcMain.on("createDirectory", (evt, arg) => createDirectory(arg))
     
     win.loadURL(
         url.format({
@@ -134,7 +136,8 @@ const createWindow = function() {
             },            
             {
                 label: '&Ordner anlegen',
-                accelerator: "F7"
+                accelerator: "F7",
+                click: evt => win.webContents.send(CREATE_FOLDER)
             },
             {
                 type: 'separator'
@@ -307,3 +310,4 @@ app.on("activate", () => {
     if (win === null) 
         createWindow()
 })
+

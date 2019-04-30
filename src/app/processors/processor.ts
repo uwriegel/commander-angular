@@ -1,5 +1,6 @@
 import { Columns, ColumnSortSettings } from '../columns/columns.component'
 import { ListItem } from '../pipes/virtual-list.pipe'
+import { IpcRenderer } from 'electron';
 
 export interface Processor {
     columns: Columns
@@ -12,4 +13,5 @@ export interface Processor {
     processItem(path: string, item: ListItem): boolean
     refreshView(): any
     sort(evt: ColumnSortSettings): any
+    createFolder(folderName: string): any
 }

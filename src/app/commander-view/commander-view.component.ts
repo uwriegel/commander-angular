@@ -12,6 +12,8 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { repeatKey } from '../functional/scrolling';
 import { ColumnSortSettings } from '../columns/columns.component'
 import { DialogComponent } from '../dialog/dialog.component'
+import { Buttons } from '../enums/buttons.enum';
+import { DialogResultValue } from '../enums/dialog-result-value.enum';
 
 @Component({
     selector: 'app-commander-view',
@@ -112,6 +114,21 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
 
     refresh() {
         this.changePath(this.path)
+    }
+
+    createfolder() {
+        const currentItem = this.tableView.getCurrentItem().name
+        this.dialog.buttons = Buttons.OkCancel
+        this.dialog.text = "Neuen Ordner anlegen"
+        this.dialog.withInput = true
+        this.dialog.inputText = currentItem && currentItem != ".." ? currentItem : ""
+        const obs = this.dialog.show()
+        obs.subscribe(result => {
+            if (result.result == DialogResultValue.Ok) {
+                // TODO: Exception
+                this.processor.createFolder(result.text)
+            }
+        })
     }
 
     onFocusIn() { 

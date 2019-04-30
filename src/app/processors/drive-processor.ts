@@ -77,4 +77,6 @@ export class DriveProcessor implements Processor {
     refreshView() {}
     
     sort(evt: ColumnSortSettings) {}
+
+    createFolder(folderName: string) {}
 }   

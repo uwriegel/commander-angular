@@ -35,21 +35,12 @@ export class CommanderComponent implements OnInit, AfterViewInit {
     constructor(public settings: SettingsService, private zone: NgZone) {
         ipcRenderer.on("properties", () => ipcRenderer.send("showInfo", this.focusedView.currentItem))
         ipcRenderer.on("openWith", () => ipcRenderer.send("openWith", this.focusedView.currentItem))
-        ipcRenderer.on("preview", (event, on)=> {
-            this.zone.run(() => this.isViewVisible = on)
-        })
-        ipcRenderer.on("selectAll", () => {
-            this.zone.run(() => this.focusedView.selectAllItems(0, false))
-        })
-        ipcRenderer.on("deselectAll", () => {
-            this.zone.run(() => this.focusedView.selectAllItems(0, true))
-        })
-        ipcRenderer.on("refresh", () => {
-            this.zone.run(() => this.focusedView.refresh())
-        })
-        ipcRenderer.on("adaptPath", () => {
-            this.zone.run(() => this.getOtherView().changePath(this.focusedView.path))
-        })
+        ipcRenderer.on("preview", (event, on)=> this.zone.run(() => this.isViewVisible = on))
+        ipcRenderer.on("selectAll", () => this.zone.run(() => this.focusedView.selectAllItems(0, false)))
+        ipcRenderer.on("deselectAll", () => this.zone.run(() => this.focusedView.selectAllItems(0, true)))
+        ipcRenderer.on("refresh", () => this.zone.run(() => this.focusedView.refresh()))
+        ipcRenderer.on("adaptPath", () => this.zone.run(() => this.getOtherView().changePath(this.focusedView.path)))
+        ipcRenderer.on("createfolder", () => this.zone.run(() => this.focusedView.createfolder()))
     }
     
     ngOnInit() { }

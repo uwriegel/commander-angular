@@ -23,10 +23,10 @@
     "@angular/platform-browser-dynamic": "^7.2.14",
     "@angular/router": "^7.2.14",
     "bindings": "~1.2.1",
-    "node-addon-api": "*",
     "core-js": "^2.5.4",
     "electron-settings": "^3.2.0",
-    "extension-fs": "^0.11.1",
+    "extension-fs": "^0.12.1",
+    "node-addon-api": "*",
     "rxjs": "~6.3.3",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
