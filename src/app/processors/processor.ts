@@ -13,5 +13,5 @@ export interface Processor {
     processItem(path: string, item: ListItem): boolean
     refreshView(): any
     sort(evt: ColumnSortSettings): any
-    createFolder(folderName: string): any
+    createFolder(path: string, folderName: string): any
 }

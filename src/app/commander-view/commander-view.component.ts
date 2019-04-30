@@ -126,7 +126,7 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
         obs.subscribe(result => {
             if (result.result == DialogResultValue.Ok) {
                 // TODO: Exception
-                this.processor.createFolder(result.text)
+                this.processor.createFolder(this.path, result.text)
             }
         })
     }

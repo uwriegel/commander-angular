@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, protocol, ipcMain } from "electron"
+import { app, BrowserWindow, Menu, protocol, ipcMain, RegisterBufferProtocolRequest, MimeTypedBuffer } from "electron"
 import * as path from "path"
 import * as url from "url"
 import { getIcon, open, openAs, showInfo, createDirectory } from 'extension-fs'
@@ -37,13 +37,23 @@ const createWindow = function() {
     }, (error) => {
         if (error) console.error('Failed to register protocol', error)
     })
-    protocol.registerBufferProtocol('getfile', async (request, callback) => {
-        const url = request.url
-        var file = decodeURIComponent(url.substr(10))
+
+    let recentUrl = ""
+    protocol.registerBufferProtocol('getfile', (request, callback) => {
+        recentUrl = request.url
+        var file = decodeURIComponent(recentUrl.substr(10))
         if (file.toLowerCase().endsWith(".jpg")) 
-            fs.readFile(file, (_, data) => {
-                callback({mimeType: 'img/jpg', data: data})
-            })
+            setTimeout(() => {
+                if (recentUrl == request.url)
+                    fs.readFile(file, (_, data) => {
+                        if (recentUrl == request.url)
+                            callback({mimeType: 'img/jpg', data: data})
+                        else
+                            callback({mimeType: 'img/jpg', data: null})
+                    })
+                else
+                    callback({mimeType: 'img/jpg', data: null})
+            }, 50)
         else if (file.toLowerCase().endsWith(".png")) 
             fs.readFile(file, (_, data) => {
                 callback({mimeType: 'img/png', data: data})

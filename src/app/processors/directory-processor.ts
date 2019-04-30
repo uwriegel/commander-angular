@@ -160,8 +160,8 @@ export class DirectoryProcessor implements Processor {
 
     // TODO: CanCreateFolder in Processor
 
-    createFolder(folderName: string) {
-        ipcRenderer.send("createDirectory", folderName)
+    createFolder(path: string, folderName: string) {
+        ipcRenderer.send("createDirectory", path + '\\' + folderName)
     }
 
     private sortItems(itemsToSort: FileItem[]) {

@@ -1,6 +1,6 @@
 <app-table-view #tv [id]="'test'" class="tableContainer" [columns]="columns" 
     [itemHeight]="themes.itemHeight" [columnHeight]="themes.columnHeight"
-    [itemType]="itemType" [items]="items" (onCurrentIndexChanged)="onCurrentIndexChanged($event)"
+    [items]="items" (onCurrentIndexChanged)="onCurrentIndexChanged($event)"
     (onSort)="onSort($event)">
     <ng-container *ngFor="let item of items | virtualList: (tv.scrollbar) | async">
         <tr class="pointer-def" [class.isCurrent]="item.isCurrent" [class.isSelected]="item.isSelected" 

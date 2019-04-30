@@ -39,8 +39,7 @@ export class ViewerComponent implements OnInit {
 
 
 //            this.isFrame = this.item.toLowerCase().endsWith(".pdf")
-
-            this.file = "getfile://" + this.item
+            setTimeout(() => this.file = "getfile://" + this.item, 50)
         }
         else {
             this.isImage = null
