@@ -14,6 +14,7 @@ run ```ng run electron```
 * Some jpg files have invalid exif dates (gummireiff 1971)
 * CreateFolder as IFileOperation
 * Mouse wheel zoom
+* Rename: error descriptions
 * Adapt zoom level in menue
 
 
