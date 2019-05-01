@@ -159,9 +159,14 @@ export class DirectoryProcessor implements Processor {
     }
 
     canCreateFolder = () => true
+    canRename = () => true
 
     async createFolder(path: string, folderName: string) {
         await sendToMainAsync("createDirectory", path + '\\' + folderName)
+    }
+
+    async rename(path: string, name: string, newName: string) {
+        await sendToMainAsync("rename", JSON.stringify({ path: path, name: name, newName: newName }))
     }
 
     private sortItems(itemsToSort: FileItem[]) {

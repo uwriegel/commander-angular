@@ -1,7 +1,7 @@
 import { app, BrowserWindow, Menu, protocol, ipcMain, RegisterBufferProtocolRequest, MimeTypedBuffer } from "electron"
 import * as path from "path"
 import * as url from "url"
-import { getIcon, open, openAs, showInfo, createDirectory } from 'extension-fs'
+import { getIcon, open, openAs, showInfo, createDirectory, rename } from 'extension-fs'
 import * as settings from 'electron-settings'
 import * as fs from 'fs'
 import { subscribe } from './ipc';
@@ -16,6 +16,7 @@ const DESELECT_ALL = "deselectAll"
 const REFRESH = "refresh"
 const CREATE_FOLDER = "createfolder"
 const ADAPT_PATH = "adaptPath"
+const RENAME = "rename"
 const themeBlue = "blue"
 const themeLightBlue = "lightblue"
 const themeDark = "dark"
@@ -92,6 +93,10 @@ const createWindow = function() {
             case "createDirectory":
                 await createDirectory(arg)
                 return ""
+            case "rename":
+                const param = JSON.parse(arg)
+                await rename(param.path, param.name, param.newName)
+                return ""
         }
     })
     
@@ -131,7 +136,8 @@ const createWindow = function() {
             label: '&Datei',
             submenu: [{
                 label: '&Umbenennen',
-                accelerator: "F2"
+                accelerator: "F2",
+                click: evt => win.webContents.send(RENAME)
             },
             {
                 type: 'separator'

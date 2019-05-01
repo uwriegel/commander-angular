@@ -41,6 +41,7 @@ export class CommanderComponent implements OnInit, AfterViewInit {
         ipcRenderer.on("refresh", () => this.zone.run(() => this.focusedView.refresh()))
         ipcRenderer.on("adaptPath", () => this.zone.run(() => this.getOtherView().changePath(this.focusedView.path)))
         ipcRenderer.on("createfolder", () => this.zone.run(() => this.focusedView.createfolder()))
+        ipcRenderer.on("rename", () => this.zone.run(() => this.focusedView.rename()))
     }
     
     ngOnInit() { }

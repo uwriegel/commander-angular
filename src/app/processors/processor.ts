@@ -14,5 +14,7 @@ export interface Processor {
     refreshView(): any
     sort(evt: ColumnSortSettings): any
     canCreateFolder(): boolean
+    canRename(): boolean
     createFolder(path: string, folderName: string): Promise<any>
+    rename(path: string, name: string, newName: string): Promise<any>
 }

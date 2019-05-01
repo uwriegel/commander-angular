@@ -140,6 +140,31 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
         }
     }
 
+    rename() {
+        if (this.processor.canRename()) {
+            const currentItem = this.tableView.getCurrentItem().name
+            this.dialog.buttons = Buttons.OkCancel
+            this.dialog.text = "Möchtest Du die Datei umbenennen?"
+            this.dialog.withInput = true
+            this.dialog.inputText = currentItem
+            this.dialog.selectNameOnly = true
+            const obs = this.dialog.show()
+            obs.subscribe(async result => {
+                if (result.result == DialogResultValue.Ok) {
+                    try {
+                        await this.processor.rename(this.path, currentItem, result.text)
+                        this.refresh()
+                    } catch (err) {
+                        this.dialog.buttons = Buttons.Ok
+                        this.dialog.text = err.description
+                        this.dialog.show()                    
+                    }
+                    this.focus()
+                }
+            })
+        }
+    }
+
     onFocusIn() { 
         this.gotFocus.emit(this) 
         this.focus()
