@@ -3,13 +3,13 @@ import { ColumnsType, ColumnSortSettings } from '../columns/columns.component'
 import { ListItem } from '../pipes/virtual-list.pipe'
 import { SettingsService } from '../services/settings.service'
 import { sort as sortFileItems } from '../functional/directory-sorting'
+import { sendToMainAsync } from '../functional/ipc'
 const fs = (window as any).require('fs')
 const extfs = (window as any).require('extension-fs')
 const getFiles: (path: string)=>Promise<FileItem[]> = extfs.getFiles
 const getFileVersion: (file: string)=>Promise<VersionInfo> = extfs.getFileVersion
 const getExifDate: (file: string)=>Promise<Date> = extfs.getExifDate
 const electron = (window as any).require('electron')
-const ipcRenderer = electron.ipcRenderer
 
 interface VersionInfo {
     major: number
@@ -158,10 +158,10 @@ export class DirectoryProcessor implements Processor {
         this.refreshView()
     }
 
-    // TODO: CanCreateFolder in Processor
+    canCreateFolder = () => true
 
-    createFolder(path: string, folderName: string) {
-        ipcRenderer.send("createDirectory", path + '\\' + folderName)
+    async createFolder(path: string, folderName: string) {
+        await sendToMainAsync("createDirectory", path + '\\' + folderName)
     }
 
     private sortItems(itemsToSort: FileItem[]) {

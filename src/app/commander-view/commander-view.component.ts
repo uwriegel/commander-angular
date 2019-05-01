@@ -13,7 +13,7 @@ import { repeatKey } from '../functional/scrolling';
 import { ColumnSortSettings } from '../columns/columns.component'
 import { DialogComponent } from '../dialog/dialog.component'
 import { Buttons } from '../enums/buttons.enum';
-import { DialogResultValue } from '../enums/dialog-result-value.enum';
+import { DialogResultValue } from '../enums/dialog-result-value.enum'
 
 @Component({
     selector: 'app-commander-view',
@@ -117,18 +117,27 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
     }
 
     createfolder() {
-        const currentItem = this.tableView.getCurrentItem().name
-        this.dialog.buttons = Buttons.OkCancel
-        this.dialog.text = "Neuen Ordner anlegen"
-        this.dialog.withInput = true
-        this.dialog.inputText = currentItem && currentItem != ".." ? currentItem : ""
-        const obs = this.dialog.show()
-        obs.subscribe(result => {
-            if (result.result == DialogResultValue.Ok) {
-                // TODO: Exception
-                this.processor.createFolder(this.path, result.text)
-            }
-        })
+        if (this.processor.canCreateFolder()) {
+            const currentItem = this.tableView.getCurrentItem().name
+            this.dialog.buttons = Buttons.OkCancel
+            this.dialog.text = "Neuen Ordner anlegen"
+            this.dialog.withInput = true
+            this.dialog.inputText = currentItem && currentItem != ".." ? currentItem : ""
+            const obs = this.dialog.show()
+            obs.subscribe(async result => {
+                if (result.result == DialogResultValue.Ok) {
+                    try {
+                        await this.processor.createFolder(this.path, result.text)
+                        this.refresh()
+                    } catch (err) {
+                        this.dialog.buttons = Buttons.Ok
+                        this.dialog.text = err.description
+                        this.dialog.show()                    
+                    }
+                    this.focus()
+                }
+            })
+        }
     }
 
     onFocusIn() { 

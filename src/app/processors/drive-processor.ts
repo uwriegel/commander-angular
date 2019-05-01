@@ -78,5 +78,7 @@ export class DriveProcessor implements Processor {
     
     sort(evt: ColumnSortSettings) {}
 
-    createFolder(path: string, folderName: string) {}
+    canCreateFolder = () => false
+
+    async createFolder(path: string, folderName: string) {}
 }   

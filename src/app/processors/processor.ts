@@ -13,5 +13,6 @@ export interface Processor {
     processItem(path: string, item: ListItem): boolean
     refreshView(): any
     sort(evt: ColumnSortSettings): any
-    createFolder(path: string, folderName: string): any
+    canCreateFolder(): boolean
+    createFolder(path: string, folderName: string): Promise<any>
 }
