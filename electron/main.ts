@@ -86,7 +86,13 @@ const createWindow = function() {
     ipcMain.on("showInfo", (evt, arg) => showInfo(arg))
     ipcMain.on("open", (evt, arg) => open(arg))
     ipcMain.on("openWith", (evt, arg) => openAs(arg))
-    ipcMain.on("createDirectory", (evt, arg) => createDirectory(arg))
+    ipcMain.on("createDirectory", async (evt, arg)  => {
+        try {
+            await createDirectory(arg)
+        } catch (err) {
+            console.log(err)
+        }
+    })
     
     win.loadURL(
         url.format({
