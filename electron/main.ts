@@ -16,6 +16,7 @@ const DESELECT_ALL = "deselectAll"
 const REFRESH = "refresh"
 const CREATE_FOLDER = "createfolder"
 const ADAPT_PATH = "adaptPath"
+const DELETE_FILES = "deleteFiles"
 const RENAME = "rename"
 const themeBlue = "blue"
 const themeLightBlue = "lightblue"
@@ -152,7 +153,8 @@ const createWindow = function() {
             },
             {
                 label: '&Löschen',
-                accelerator: "F8"
+                accelerator: "Delete",
+                click: evt => win.webContents.send(DELETE_FILES)
             },
             {
                 type: 'separator'

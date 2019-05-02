@@ -109,7 +109,6 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
                 ? above ? index <= currentItemIndex : index >= currentItemIndex ? this.isItemSelectable(item) : false
                 : false
         })
-        // this.selectionChanged()
     }
 
     refresh() {
@@ -161,6 +160,24 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
                     }
                     this.focus()
                 }
+            })
+        }
+    }
+
+    deleteFiles() {
+        if (this.processor.canDelete()) {
+            const selectedItems = this.getSelectedItems()
+            const itemsToDelete = selectedItems.length == 0 ? [this.tableView.getCurrentItem()] : selectedItems
+            if (itemsToDelete.length == 0)
+                return
+            this.dialog.buttons = Buttons.OkCancel
+            this.dialog.text = itemsToDelete.length > 1 
+                ? "Möchtest Du die selektierten Einträge löschen?"
+                : itemsToDelete[0].isDirectory ? "Möchtest Du den Ordner löschen?" : "Möchtest Du die Datei löschen?"
+            this.dialog.selectNameOnly = true
+            const obs = this.dialog.show()
+            obs.subscribe(async result => {
+
             })
         }
     }
@@ -264,6 +281,8 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
         this.processor.sort(evt)
     }
 
+    getSelectedItems = () => this.tableView.getAllItems().filter((item) => item.isSelected)
+
     private processItem()  {
         this.undoRestriction()
         const recentPath = this.path
@@ -292,7 +311,6 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
             item.isSelected = !item.isSelected
             result = true
         }
-  //      this.selectionChanged()
         return result
     }
 

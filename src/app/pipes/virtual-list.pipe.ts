@@ -6,6 +6,7 @@ export interface ListItem {
     name: string
     isCurrent?: boolean
     isSelected?: boolean
+    isDirectory?: boolean
 }
 @Pipe({
     name: 'virtualList'

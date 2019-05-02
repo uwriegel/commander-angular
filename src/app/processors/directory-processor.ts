@@ -160,6 +160,7 @@ export class DirectoryProcessor implements Processor {
 
     canCreateFolder = () => true
     canRename = () => true
+    canDelete = () => true
 
     async createFolder(path: string, folderName: string) {
         await sendToMainAsync("createDirectory", path + '\\' + folderName)
