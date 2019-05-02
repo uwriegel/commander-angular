@@ -18,4 +18,5 @@ export interface Processor {
     canDelete(): boolean
     createFolder(path: string, folderName: string): Promise<any>
     rename(path: string, name: string, newName: string): Promise<any>
+    deleteFiles(path: string, itemsToDelete: ListItem[]): Promise<any>
 }

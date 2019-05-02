@@ -1,7 +1,7 @@
 import { app, BrowserWindow, Menu, protocol, ipcMain, RegisterBufferProtocolRequest, MimeTypedBuffer } from "electron"
 import * as path from "path"
 import * as url from "url"
-import { getIcon, open, openAs, showInfo, createDirectory, rename } from 'extension-fs'
+import { getIcon, open, openAs, showInfo, createDirectory, rename, deleteFiles } from 'extension-fs'
 import * as settings from 'electron-settings'
 import * as fs from 'fs'
 import { subscribe } from './ipc';
@@ -97,6 +97,10 @@ const createWindow = function() {
             case "rename":
                 const param = JSON.parse(arg)
                 await rename(param.path, param.name, param.newName)
+                return ""
+            case "deleteFiles":
+                const files = JSON.parse(arg)
+                await deleteFiles(files)
                 return ""
         }
     })

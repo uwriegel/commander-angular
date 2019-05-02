@@ -9,7 +9,7 @@ run ```npm update```
 ### Normal builds
 run ```ng run electron```
 ## TODOs
-* Delete items
+* Copy items
 * Some jpg files have invalid exif dates (gummireiff 1971)
 * CreateFolder as IFileOperation
 * Mouse wheel zoom

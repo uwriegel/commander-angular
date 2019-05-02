@@ -170,6 +170,11 @@ export class DirectoryProcessor implements Processor {
         await sendToMainAsync("rename", JSON.stringify({ path: path, name: name, newName: newName }))
     }
 
+    async deleteFiles(path: string, itemsToDelete: ListItem[]) {
+        const files =  itemsToDelete.map(n => path + '\\' + n.name)
+        await sendToMainAsync("deleteFiles", JSON.stringify(files))
+    }
+
     private sortItems(itemsToSort: FileItem[]) {
         if (!this.sorting) 
             return itemsToSort

@@ -167,7 +167,7 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
     deleteFiles() {
         if (this.processor.canDelete()) {
             const selectedItems = this.getSelectedItems()
-            const itemsToDelete = selectedItems.length == 0 ? [this.tableView.getCurrentItem()] : selectedItems
+            const itemsToDelete = (selectedItems.length == 0 ? [this.tableView.getCurrentItem()] : selectedItems)
             if (itemsToDelete.length == 0)
                 return
             this.dialog.buttons = Buttons.OkCancel
@@ -177,7 +177,17 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
             this.dialog.selectNameOnly = true
             const obs = this.dialog.show()
             obs.subscribe(async result => {
-
+                if (result.result == DialogResultValue.Ok) {
+                    try {
+                        await this.processor.deleteFiles(this.path, itemsToDelete)
+                        this.refresh()
+                    } catch (err) {
+                        this.dialog.buttons = Buttons.Ok
+                        this.dialog.text = err.description
+                        this.dialog.show()                    
+                    }
+                    this.focus()
+                }
             })
         }
     }
