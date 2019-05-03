@@ -2,7 +2,6 @@ import { Component, ViewChild, ElementRef } from '@angular/core'
 import { trigger, transition, style, animate, state } from '@angular/animations'
 import { Buttons } from '../enums/buttons.enum'
 import { DialogResultValue } from '../enums/dialog-result-value.enum'
-import { Subject, Observable } from '../../../node_modules/rxjs';
 
 export interface DialogResult {
     result: DialogResultValue
@@ -62,23 +61,24 @@ export class DialogComponent {
     selectNameOnly = false
     noIsDefault = false
 
-    show(): Observable<DialogResult> {
-        if (!this.focusedElement)
-            this.focusedElement = document.activeElement as HTMLElement
-        this.isShowing = true 
-        setTimeout(() => {
-            this.defaultButton = this.noIsDefault ? this.no : this.ok
-            if (this.inputText)
-                this.input.nativeElement.value = this.inputText
-            this.withInput
-            ? this.input.nativeElement.focus() 
-            : this.noIsDefault
-                ? this.no.nativeElement.focus()
-                : this.ok.nativeElement.focus()
-        }, 0)
+    show() {
+        return new Promise<DialogResult>((res, rej) => {
+            if (!this.focusedElement)
+                this.focusedElement = document.activeElement as HTMLElement
+            this.isShowing = true 
+            setTimeout(() => {
+                this.defaultButton = this.noIsDefault ? this.no : this.ok
+                if (this.inputText)
+                    this.input.nativeElement.value = this.inputText
+                this.withInput
+                ? this.input.nativeElement.focus() 
+                : this.noIsDefault
+                    ? this.no.nativeElement.focus()
+                    : this.ok.nativeElement.focus()
+            })
 
-        this.dialogFinisher = new Subject<DialogResult>()
-        return this.dialogFinisher
+            this.dialogFinisher = res
+        })
     }
 
     private onFocusIn(evt: Event) {
@@ -127,11 +127,12 @@ export class DialogComponent {
         setTimeout(() => {
             this.focusedElement.focus()
             this.focusedElement = null
-            this.dialogFinisher.next(result)
+            this.dialogFinisher(result)
+            this.dialogFinisher = null
         }, 150)
     }
 
-    private dialogFinisher: Subject<DialogResult>
+    private dialogFinisher: (res: DialogResult)=>void
     isShowing = false
     private defaultButton: ElementRef
     private focusedElement: HTMLElement

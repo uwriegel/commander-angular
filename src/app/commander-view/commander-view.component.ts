@@ -115,31 +115,29 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
         this.changePath(this.path)
     }
 
-    createfolder() {
+    async createfolder() {
         if (this.processor.canCreateFolder()) {
             const currentItem = this.tableView.getCurrentItem().name
             this.dialog.buttons = Buttons.OkCancel
             this.dialog.text = "Neuen Ordner anlegen"
             this.dialog.withInput = true
             this.dialog.inputText = currentItem && currentItem != ".." ? currentItem : ""
-            const obs = this.dialog.show()
-            obs.subscribe(async result => {
-                if (result.result == DialogResultValue.Ok) {
-                    try {
-                        await this.processor.createFolder(this.path, result.text)
-                        this.refresh()
-                    } catch (err) {
-                        this.dialog.buttons = Buttons.Ok
-                        this.dialog.text = err.description
-                        this.dialog.show()                    
-                    }
-                    this.focus()
+            const result = await this.dialog.show()
+            if (result.result == DialogResultValue.Ok) {
+                try {
+                    await this.processor.createFolder(this.path, result.text)
+                    this.refresh()
+                } catch (err) {
+                    this.dialog.buttons = Buttons.Ok
+                    this.dialog.text = err.description
+                    this.dialog.show()                    
                 }
-            })
+                this.focus()
+            }
         }
     }
 
-    rename() {
+    async rename() {
         if (this.processor.canRename()) {
             const currentItem = this.tableView.getCurrentItem().name
             this.dialog.buttons = Buttons.OkCancel
@@ -147,24 +145,22 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
             this.dialog.withInput = true
             this.dialog.inputText = currentItem
             this.dialog.selectNameOnly = true
-            const obs = this.dialog.show()
-            obs.subscribe(async result => {
-                if (result.result == DialogResultValue.Ok) {
-                    try {
-                        await this.processor.rename(this.path, currentItem, result.text)
-                        this.refresh()
-                    } catch (err) {
-                        this.dialog.buttons = Buttons.Ok
-                        this.dialog.text = err.description
-                        this.dialog.show()                    
-                    }
-                    this.focus()
+            const result = await this.dialog.show()
+            if (result.result == DialogResultValue.Ok) {
+                try {
+                    await this.processor.rename(this.path, currentItem, result.text)
+                    this.refresh()
+                } catch (err) {
+                    this.dialog.buttons = Buttons.Ok
+                    this.dialog.text = err.description
+                    this.dialog.show()                    
                 }
-            })
+                this.focus()
+            }
         }
     }
 
-    deleteFiles() {
+    async deleteFiles() {
         if (this.processor.canDelete()) {
             const selectedItems = this.getSelectedItems()
             const itemsToDelete = (selectedItems.length == 0 ? [this.tableView.getCurrentItem()] : selectedItems)
@@ -174,24 +170,22 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
             this.dialog.text = itemsToDelete.length > 1 
                 ? "Möchtest Du die selektierten Einträge löschen?"
                 : itemsToDelete[0].isDirectory ? "Möchtest Du den Ordner löschen?" : "Möchtest Du die Datei löschen?"
-            const obs = this.dialog.show()
-            obs.subscribe(async result => {
-                if (result.result == DialogResultValue.Ok) {
-                    try {
-                        await this.processor.deleteFiles(this.path, itemsToDelete)
-                        this.refresh()
-                    } catch (err) {
-                        this.dialog.buttons = Buttons.Ok
-                        this.dialog.text = err.description
-                        this.dialog.show()                    
-                    }
-                    this.focus()
+            const result = await this.dialog.show()
+            if (result.result == DialogResultValue.Ok) {
+                try {
+                    await this.processor.deleteFiles(this.path, itemsToDelete)
+                    this.refresh()
+                } catch (err) {
+                    this.dialog.buttons = Buttons.Ok
+                    this.dialog.text = err.description
+                    this.dialog.show()                    
                 }
-            })
+                this.focus()
+            }
         }
     }
 
-    copyFiles(targetPath: string, move: boolean) {
+    async copyFiles(targetPath: string, move: boolean) {
         if (move ? this.processor.canMove() : this.processor.canCopy()) {
             const selectedItems = this.getSelectedItems()
             const itemsToCopy = (selectedItems.length == 0 ? [this.tableView.getCurrentItem()] : selectedItems)
@@ -202,20 +196,18 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
             this.dialog.text = itemsToCopy.length > 1 
                 ? `Möchtest Du die selektierten Einträge ${action}?`
                 : itemsToCopy[0].isDirectory ? `Möchtest Du den Ordner ${action}?` : `Möchtest Du die Datei ${action}?` 
-            const obs = this.dialog.show()
-            obs.subscribe(async result => {
-                if (result.result == DialogResultValue.Ok) {
-                    try {
-                        //await this.processor.deleteFiles(this.path, itemsToDelete)
-                        this.refresh()
-                    } catch (err) {
-                        this.dialog.buttons = Buttons.Ok
-                        this.dialog.text = err.description
-                        this.dialog.show()                    
-                    }
-                    this.focus()
+            const result = await this.dialog.show()
+            if (result.result == DialogResultValue.Ok) {
+                try {
+                    //await this.processor.deleteFiles(this.path, itemsToDelete)
+                    this.refresh()
+                } catch (err) {
+                    this.dialog.buttons = Buttons.Ok
+                    this.dialog.text = err.description
+                    this.dialog.show()                    
                 }
-            })
+                this.focus()
+            }
         }
     }
 
