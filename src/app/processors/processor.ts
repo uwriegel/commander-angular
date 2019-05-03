@@ -16,6 +16,9 @@ export interface Processor {
     canCreateFolder(): boolean
     canRename(): boolean
     canDelete(): boolean
+    canInsertFiles(): boolean
+    canCopy(): boolean
+    canMove(): boolean
     createFolder(path: string, folderName: string): Promise<any>
     rename(path: string, name: string, newName: string): Promise<any>
     deleteFiles(path: string, itemsToDelete: ListItem[]): Promise<any>

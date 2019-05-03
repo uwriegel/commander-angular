@@ -81,6 +81,9 @@ export class DriveProcessor implements Processor {
     canCreateFolder = () => false
     canRename = () => false
     canDelete = () => false
+    canInsertFiles = () => false
+    canCopy = () => false
+    canMove = () => false
 
     async createFolder(path: string, folderName: string) {}
     async rename(path: string, name: string, newName: string) {}

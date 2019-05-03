@@ -174,7 +174,6 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
             this.dialog.text = itemsToDelete.length > 1 
                 ? "Möchtest Du die selektierten Einträge löschen?"
                 : itemsToDelete[0].isDirectory ? "Möchtest Du den Ordner löschen?" : "Möchtest Du die Datei löschen?"
-            this.dialog.selectNameOnly = true
             const obs = this.dialog.show()
             obs.subscribe(async result => {
                 if (result.result == DialogResultValue.Ok) {
@@ -191,6 +190,36 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
             })
         }
     }
+
+    copyFiles(targetPath: string, move: boolean) {
+        if (move ? this.processor.canMove() : this.processor.canCopy()) {
+            const selectedItems = this.getSelectedItems()
+            const itemsToCopy = (selectedItems.length == 0 ? [this.tableView.getCurrentItem()] : selectedItems)
+            if (itemsToCopy.length == 0)
+                return
+            this.dialog.buttons = Buttons.OkCancel
+            const action = move ? "verschieben": "kopieren"
+            this.dialog.text = itemsToCopy.length > 1 
+                ? `Möchtest Du die selektierten Einträge ${action}?`
+                : itemsToCopy[0].isDirectory ? `Möchtest Du den Ordner ${action}?` : `Möchtest Du die Datei ${action}?` 
+            const obs = this.dialog.show()
+            obs.subscribe(async result => {
+                if (result.result == DialogResultValue.Ok) {
+                    try {
+                        //await this.processor.deleteFiles(this.path, itemsToDelete)
+                        this.refresh()
+                    } catch (err) {
+                        this.dialog.buttons = Buttons.Ok
+                        this.dialog.text = err.description
+                        this.dialog.show()                    
+                    }
+                    this.focus()
+                }
+            })
+        }
+    }
+
+    canInsertFiles = () => this.processor.canInsertFiles()
 
     onFocusIn() { 
         this.gotFocus.emit(this) 

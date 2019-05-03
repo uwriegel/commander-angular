@@ -18,6 +18,8 @@ const CREATE_FOLDER = "createfolder"
 const ADAPT_PATH = "adaptPath"
 const DELETE_FILES = "deleteFiles"
 const RENAME = "rename"
+const COPY = "copy"
+const MOVE = "move"
 const themeBlue = "blue"
 const themeLightBlue = "lightblue"
 const themeDark = "dark"
@@ -149,11 +151,13 @@ const createWindow = function() {
             },            
             {
                 label: '&Kopieren',
-                accelerator: "F5"
+                accelerator: "F5",
+                click: evt => win.webContents.send(COPY)
             },
             {
                 label: '&Verschieben',
-                accelerator: "F6"
+                accelerator: "F6",
+                click: evt => win.webContents.send(MOVE)
             },
             {
                 label: '&Löschen',
