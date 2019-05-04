@@ -8,6 +8,10 @@ run ```npm update```
 
 ### Normal builds
 run ```ng run electron```
+### Create setups:
+run ```npm run build```
+run ```npm run mainbuild```
+run ```npm run dist```
 ## TODOs
 * Copy items
 * Some jpg files have invalid exif dates (gummireiff 1971)

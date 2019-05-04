@@ -117,7 +117,7 @@ const createWindow = function() {
     
     win.loadURL(
         url.format({
-            pathname: path.join(__dirname, `/../../dist/commander/index.html`),
+            pathname: path.join(__dirname, `/../../angular/commander/index.html`),
             protocol: "file:",
             slashes: true
         })
