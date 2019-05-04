@@ -199,8 +199,7 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
             const result = await this.dialog.show()
             if (result.result == DialogResultValue.Ok) {
                 try {
-                    //await this.processor.deleteFiles(this.path, itemsToDelete)
-                    this.refresh()
+                    await this.processor.copyFiles(this.path, targetPath, itemsToCopy, move)
                 } catch (err) {
                     this.dialog.buttons = Buttons.Ok
                     this.dialog.text = err.description
@@ -208,6 +207,7 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
                 }
                 this.focus()
             }
+            return result.result == DialogResultValue.Ok
         }
     }
 

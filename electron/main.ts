@@ -1,7 +1,7 @@
 import { app, BrowserWindow, Menu, protocol, ipcMain, RegisterBufferProtocolRequest, MimeTypedBuffer } from "electron"
 import * as path from "path"
 import * as url from "url"
-import { getIcon, open, openAs, showInfo, createDirectory, rename, deleteFiles } from 'extension-fs'
+import { getIcon, open, openAs, showInfo, createDirectory, rename, deleteFiles, copyFiles, moveFiles } from 'extension-fs'
 import * as settings from 'electron-settings'
 import * as fs from 'fs'
 import { subscribe } from './ipc';
@@ -103,6 +103,14 @@ const createWindow = function() {
             case "deleteFiles":
                 const files = JSON.parse(arg)
                 await deleteFiles(files)
+                return ""
+            case "copyFiles":
+                const copyItems = JSON.parse(arg)
+                await copyFiles(copyItems.items, copyItems.targetItems, false)
+                return ""
+            case "moveFiles":
+                const moveItems = JSON.parse(arg)
+                await moveFiles(moveItems.items, moveItems.targetItems, false)
                 return ""
         }
     })

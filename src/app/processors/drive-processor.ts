@@ -88,4 +88,5 @@ export class DriveProcessor implements Processor {
     async createFolder(path: string, folderName: string) {}
     async rename(path: string, name: string, newName: string) {}
     async deleteFiles(path: string, itemsToDelete: ListItem[]) {}
+    async copyFiles(path: string, targetPath: string, itemsTocopy: ListItem[], move: boolean) {}
 }   

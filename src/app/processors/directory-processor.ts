@@ -178,6 +178,14 @@ export class DirectoryProcessor implements Processor {
         await sendToMainAsync("deleteFiles", JSON.stringify(files))
     }
 
+    async copyFiles(path: string, targetPath: string, itemsTocopy: ListItem[], move: boolean) {
+        const params = {
+            items: itemsTocopy.map(n => path + '\\' + n.name),
+            targetItems: itemsTocopy.map(n => targetPath + '\\' + n.name)
+        }
+        await sendToMainAsync(move ? "moveFiles" : "copyFiles", JSON.stringify(params))
+    }
+
     private sortItems(itemsToSort: FileItem[]) {
         if (!this.sorting) 
             return itemsToSort

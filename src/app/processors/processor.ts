@@ -22,4 +22,5 @@ export interface Processor {
     createFolder(path: string, folderName: string): Promise<any>
     rename(path: string, name: string, newName: string): Promise<any>
     deleteFiles(path: string, itemsToDelete: ListItem[]): Promise<any>
+    copyFiles(path: string, targetPath: string, itemsTocopy: ListItem[], move: boolean): Promise<any>
 }

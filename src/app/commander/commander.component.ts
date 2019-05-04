@@ -43,16 +43,18 @@ export class CommanderComponent implements OnInit, AfterViewInit {
         ipcRenderer.on("createfolder", () => this.zone.run(() => this.focusedView.createfolder()))
         ipcRenderer.on("rename", () => this.zone.run(() => this.focusedView.rename()))
         ipcRenderer.on("deleteFiles", () => this.zone.run(() => this.focusedView.deleteFiles()))
-        ipcRenderer.on("copy", () => this.zone.run(() => {
+        const copy = (move: boolean) => this.zone.run(async () => {
             const other = this.getOtherView()
-            if (other.canInsertFiles())
-                this.focusedView.copyFiles(other.path, false)
-        }))
-        ipcRenderer.on("move", () => this.zone.run(() => {
-            const other = this.getOtherView()
-            if (other.canInsertFiles())
-                this.focusedView.copyFiles(other.path, true)
-        }))
+            if (other.canInsertFiles()) {
+                if (await this.focusedView.copyFiles(other.path, move)) {
+                    if (move)
+                        this.focusedView.refresh()
+                    other.refresh()
+                }
+            }
+        })
+        ipcRenderer.on("copy", () => copy(false))
+        ipcRenderer.on("move", () => copy(true))
     }
     
     ngOnInit() { }
