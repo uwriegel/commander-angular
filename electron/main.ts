@@ -106,11 +106,11 @@ const createWindow = function() {
                 return ""
             case "copyFiles":
                 const copyItems = JSON.parse(arg)
-                await copyFiles(copyItems.items, copyItems.targetItems, false)
+                await copyFiles(copyItems.items, copyItems.targetPath, false)
                 return ""
             case "moveFiles":
                 const moveItems = JSON.parse(arg)
-                await moveFiles(moveItems.items, moveItems.targetItems, false)
+                await moveFiles(moveItems.items, moveItems.targetPath, false)
                 return ""
         }
     })

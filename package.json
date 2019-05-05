@@ -45,7 +45,7 @@
         "bindings": "~1.2.1",
         "core-js": "^2.5.4",
         "electron-settings": "^3.2.0",
-        "extension-fs": "^1.0.0",
+        "extension-fs": "^1.0.3",
         "node-addon-api": "*",
         "rxjs": "~6.3.3",
         "tslib": "^1.9.0",

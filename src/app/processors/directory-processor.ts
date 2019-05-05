@@ -181,7 +181,7 @@ export class DirectoryProcessor implements Processor {
     async copyFiles(path: string, targetPath: string, itemsTocopy: ListItem[], move: boolean) {
         const params = {
             items: itemsTocopy.map(n => path + '\\' + n.name),
-            targetItems: itemsTocopy.map(n => targetPath + '\\' + n.name)
+            targetPath: targetPath
         }
         await sendToMainAsync(move ? "moveFiles" : "copyFiles", JSON.stringify(params))
     }

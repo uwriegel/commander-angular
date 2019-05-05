@@ -13,7 +13,8 @@ run ```npm run build```
 run ```npm run mainbuild```
 run ```npm run dist```
 ## TODOs
-* Copy items
+* Konnte nicht löeauschen
+* Copy items: ".." => filter
 * Some jpg files have invalid exif dates (gummireiff 1971)
 * CreateFolder as IFileOperation
 * Mouse wheel zoom
