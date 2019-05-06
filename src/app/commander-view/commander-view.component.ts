@@ -139,7 +139,7 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
 
     async rename() {
         if (this.processor.canRename()) {
-            const currentItem = this.tableView.getCurrentItem().name
+            const currentItem = this.getCurrentItem().name
             this.dialog.buttons = Buttons.OkCancel
             this.dialog.text = "Möchtest Du die Datei umbenennen?"
             this.dialog.withInput = true
@@ -163,7 +163,7 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
     async deleteFiles() {
         if (this.processor.canDelete()) {
             const selectedItems = this.getSelectedItems()
-            const itemsToDelete = (selectedItems.length == 0 ? [this.tableView.getCurrentItem()] : selectedItems)
+            const itemsToDelete = (selectedItems.length == 0 ? [this.getCurrentItem()] : selectedItems).filter(n => n != null)
             if (itemsToDelete.length == 0)
                 return
             this.dialog.buttons = Buttons.OkCancel
@@ -188,7 +188,7 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
     async copyFiles(targetPath: string, move: boolean) {
         if (move ? this.processor.canMove() : this.processor.canCopy()) {
             const selectedItems = this.getSelectedItems()
-            const itemsToCopy = (selectedItems.length == 0 ? [this.tableView.getCurrentItem()] : selectedItems)
+            const itemsToCopy = (selectedItems.length == 0 ? [this.getCurrentItem()] : selectedItems).filter(n => n != null)
             if (itemsToCopy.length == 0)
                 return
             this.dialog.buttons = Buttons.OkCancel
@@ -263,10 +263,10 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
                 if (evt.shiftKey) 
                     this.selectAllItems(this.tableView.getCurrentItemIndex(), true)
                 break                
-            case 45: // Einfg
+            case 45: // Ins
                 repeatKey(evt.repeat, () => {
-                    if (this.toggleSelection(this.tableView.getCurrentItem()))
-                        this.tableView.downOne()
+                    this.toggleSelection(this.tableView.getCurrentItem())
+                    this.tableView.downOne()
                 })
                 break;
         }
@@ -312,7 +312,7 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
         this.processor.sort(evt)
     }
 
-    getSelectedItems = () => this.tableView.getAllItems().filter((item) => item.isSelected)
+    readonly getSelectedItems = () => this.tableView.getAllItems().filter((item) => item.isSelected)
 
     private processItem()  {
         this.undoRestriction()
@@ -326,6 +326,8 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
             this.focus()
         }
     }
+
+    private readonly getCurrentItem = () => this.tableView.getCurrentItemIndex() != 0 ? this.tableView.getCurrentItem() : null
 
     private getValue(id: string, fallback?: string) {
         const result = localStorage[this.id + '-' + id]
