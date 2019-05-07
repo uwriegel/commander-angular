@@ -160,6 +160,7 @@ export class DirectoryProcessor implements Processor {
 
     canCreateFolder = () => true
     canRename = () => true
+    canExtendedRename = () => true
     canDelete = () => true
     canInsertFiles = () => true
     canCopy = () => true

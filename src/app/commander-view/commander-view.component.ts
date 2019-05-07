@@ -14,6 +14,7 @@ import { ColumnSortSettings } from '../columns/columns.component'
 import { DialogComponent } from '../dialog/dialog.component'
 import { Buttons } from '../enums/buttons.enum';
 import { DialogResultValue } from '../enums/dialog-result-value.enum'
+import { ExtendedRenameProcessor } from '../processors/extended-rename-processor'
 
 @Component({
     selector: 'app-commander-view',
@@ -134,6 +135,15 @@ export class CommanderViewComponent implements OnInit, AfterViewInit {
                 }
                 this.focus()
             }
+        }
+    }
+
+    startExtendedRename() {
+        if (this.processor.canExtendedRename()) {
+            this.undoRestriction()
+            this.processor = new ExtendedRenameProcessor(this.settings)
+            this.processor.changePath(this.path)
+            this.focus()
         }
     }
 

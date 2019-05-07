@@ -18,6 +18,7 @@ const CREATE_FOLDER = "createfolder"
 const ADAPT_PATH = "adaptPath"
 const DELETE_FILES = "deleteFiles"
 const RENAME = "rename"
+const EXTENDED_RENAME = "extendedRename"
 const COPY = "copy"
 const MOVE = "move"
 const themeBlue = "blue"
@@ -153,6 +154,11 @@ const createWindow = function() {
                 label: '&Umbenennen',
                 accelerator: "F2",
                 click: evt => win.webContents.send(RENAME)
+            },
+            {
+                label: '&Erweitertes Umbenennen',
+                accelerator: "Control+F2",
+                click: evt => win.webContents.send(EXTENDED_RENAME)
             },
             {
                 type: 'separator'

@@ -42,6 +42,7 @@ export class CommanderComponent implements OnInit, AfterViewInit {
         ipcRenderer.on("adaptPath", () => this.zone.run(() => this.getOtherView().changePath(this.focusedView.path)))
         ipcRenderer.on("createfolder", () => this.zone.run(() => this.focusedView.createfolder()))
         ipcRenderer.on("rename", () => this.zone.run(() => this.focusedView.rename()))
+        ipcRenderer.on("extendedRename", () => this.zone.run(() => this.focusedView.startExtendedRename()))
         ipcRenderer.on("deleteFiles", () => this.zone.run(() => this.focusedView.deleteFiles()))
         const copy = (move: boolean) => this.zone.run(async () => {
             const other = this.getOtherView()

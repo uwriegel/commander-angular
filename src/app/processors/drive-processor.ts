@@ -80,6 +80,7 @@ export class DriveProcessor implements Processor {
 
     canCreateFolder = () => false
     canRename = () => false
+    canExtendedRename = () => false
     canDelete = () => false
     canInsertFiles = () => false
     canCopy = () => false

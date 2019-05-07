@@ -33,6 +33,24 @@
                 <td>{{item.description}}</td>
                 <td class="size">{{item | fileSize}}</td>
             </tr>
+
+            <tr class="pointer-def" [class.isCurrent]="item.isCurrent" [class.isSelected]="item.isSelected" 
+                [class.isHidden]="item.isHidden" *ngSwitchCase="'extendedRename'">
+                <td>
+                    <div class="iconName">
+                        <img [src]="item.name | iconUrl: path | sanitize" alt="" *ngIf="item.isDirectory != true">
+                        <app-folder *ngIf="item.isDirectory"></app-folder>
+                        <span class="nameValue">{{item | fileName}}</span>
+                    </div>
+                </td>
+                <td></td>
+                <td>{{item | extension}}</td>
+                <td [class.isExif]="item.isExifDate">
+                    {{item.time | dateTime}}
+                </td>
+                <td class="size">{{item | fileSize}}</td>
+            </tr>
+
         </ng-container>
     </app-table-view>
     <input class="restrictor" *ngIf="restrictValue.length" @flyInOut value="{{restrictValue}}" disabled>

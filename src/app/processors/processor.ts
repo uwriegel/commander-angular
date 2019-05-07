@@ -15,6 +15,7 @@ export interface Processor {
     sort(evt: ColumnSortSettings): any
     canCreateFolder(): boolean
     canRename(): boolean
+    canExtendedRename() : boolean
     canDelete(): boolean
     canInsertFiles(): boolean
     canCopy(): boolean
