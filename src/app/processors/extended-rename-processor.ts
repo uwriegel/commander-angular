@@ -1,7 +1,11 @@
-import { DirectoryProcessor } from './directory-processor';
-import { ColumnsType } from '../columns/columns.component';
+import { DirectoryProcessor, FileItem } from './directory-processor'
+import { ColumnsType } from '../columns/columns.component'
 
 export class ExtendedRenameProcessor extends DirectoryProcessor {
+
+    isProcessorFromPath = (path: string) => path ? path == this.path : false
+    isProcessor = (item: FileItem) => false
+
     columns = {
         name: "extendedRename",
         values: [{
@@ -28,4 +32,10 @@ export class ExtendedRenameProcessor extends DirectoryProcessor {
         ]
     }
 
+    changePath(newPath: string, recentPath?: string): Promise<void> {
+        this.path = newPath
+        return super.changePath(newPath, recentPath)
+    }
+
+    private path = "" 
 }
