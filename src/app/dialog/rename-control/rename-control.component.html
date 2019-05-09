@@ -1,17 +1,17 @@
 <p>
-    <input tabindex="10" #switcher type="checkbox" appDefaultButton [defaultButton]="defaultButton"> Dateinen umbenennen
+    <input tabindex="10" #switcher type="checkbox" value="{{renameData.isActive}}" appDefaultButton [defaultButton]="defaultButton"> Dateinen umbenennen
 </p>
 <table>
     <tr>
         <td>Prefix:</td>
         <td>
-            <input tabindex="11" type="text" appDefaultButton [defaultButton]="defaultButton"/>
+            <input tabindex="11" type="text" value="{{renameData.prefix}}" appDefaultButton [defaultButton]="defaultButton"/>
         </td>
     </tr>
     <tr>
         <td>Initialwert:</td>
         <td>
-            <input tabindex="12" type="number" appDefaultButton [defaultButton]="defaultButton"/>
+            <input tabindex="12" type="number" value="{{renameData.startingIndex}}"  appDefaultButton [defaultButton]="defaultButton"/>
         </td>
     </tr>
     <tr>

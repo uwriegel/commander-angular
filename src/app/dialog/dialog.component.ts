@@ -63,6 +63,12 @@ export class DialogComponent {
     selectNameOnly = false
     noIsDefault = false
     rename = false
+    renameData = {
+        isActive: true,
+        numberOfDigits: 3,
+        startingIndex: 0,
+        prefix: "Bild"
+    }
 
     isShowing = false
     defaultButton: ElementRef

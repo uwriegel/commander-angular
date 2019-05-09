@@ -68,6 +68,10 @@ export class DialogComponent implements OnInit {
     async extendedRename() {
         this.dialog.buttons = Buttons.Ok
         this.dialog.rename = true
+        this.dialog.renameData.isActive = true
+        this.dialog.renameData.numberOfDigits = 3
+        this.dialog.renameData.prefix = "Bild"
+        this.dialog.renameData.startingIndex = 45
         const result = await this.dialog.show()
         console.log(result)
     }
