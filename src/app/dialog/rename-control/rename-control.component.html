@@ -1,0 +1,28 @@
+<p>
+    <input tabindex="10" #switcher type="checkbox" appDefaultButton [defaultButton]="defaultButton"> Dateinen umbenennen
+</p>
+<table>
+    <tr>
+        <td>Prefix:</td>
+        <td>
+            <input tabindex="11" type="text" appDefaultButton [defaultButton]="defaultButton"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Initialwert:</td>
+        <td>
+            <input tabindex="12" type="number" appDefaultButton [defaultButton]="defaultButton"/>
+        </td>
+    </tr>
+    <tr>
+        <td>Stellenzahl:</td>
+        <td>
+            <select tabindex="13" name="example" appDefaultButton [defaultButton]="defaultButton">
+                <option value=1>1-stellig</option>
+                <option value=2>2-stellig</option>
+                <option value=3>3-stellig</option>
+                <option value=4>4-stellig</option>
+            </select>
+        </td>
+    </tr>
+</table>

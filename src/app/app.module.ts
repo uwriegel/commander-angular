@@ -35,6 +35,7 @@ import { ViewerComponent } from './viewers/viewer/viewer.component';
 import { ImageViewerComponent } from './viewers/image-viewer/image-viewer.component';
 import { ViewerTestComponent } from './test/viewer-test/viewer-test.component';
 import { FrameViewerComponent } from './viewers/frame-viewer/frame-viewer.component';
+import { RenameControlComponent } from './dialog/rename-control/rename-control.component';
 
 @NgModule({
     declarations: [
@@ -72,6 +73,7 @@ import { FrameViewerComponent } from './viewers/frame-viewer/frame-viewer.compon
         ImageViewerComponent,
         ViewerTestComponent,
         FrameViewerComponent,
+        RenameControlComponent,
     ],
     imports: [
         BrowserModule,

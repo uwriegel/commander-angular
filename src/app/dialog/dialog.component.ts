@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core'
 import { trigger, transition, style, animate, state } from '@angular/animations'
 import { Buttons } from '../enums/buttons.enum'
 import { DialogResultValue } from '../enums/dialog-result-value.enum'
+import { RenameControlComponent } from './rename-control/rename-control.component';
 
 export interface DialogResult {
     result: DialogResultValue
@@ -54,13 +55,18 @@ export class DialogComponent {
     @ViewChild("ok") ok: ElementRef
     @ViewChild("no") no: ElementRef
     @ViewChild("input") input: ElementRef
+    @ViewChild("renameControl") renameControl: RenameControlComponent
     text = ""
     buttons = Buttons.Ok
     withInput = false
     inputText = ""
     selectNameOnly = false
     noIsDefault = false
+    rename = false
 
+    isShowing = false
+    defaultButton: ElementRef
+    
     show() {
         return new Promise<DialogResult>((res, rej) => {
             if (!this.focusedElement)
@@ -70,11 +76,13 @@ export class DialogComponent {
                 this.defaultButton = this.noIsDefault ? this.no : this.ok
                 if (this.inputText)
                     this.input.nativeElement.value = this.inputText
-                this.withInput
-                ? this.input.nativeElement.focus() 
-                : this.noIsDefault
-                    ? this.no.nativeElement.focus()
-                    : this.ok.nativeElement.focus()
+                this.rename 
+                ? this.renameControl.focus()
+                : this.withInput
+                    ? this.input.nativeElement.focus() 
+                    : this.noIsDefault
+                        ? this.no.nativeElement.focus()
+                        : this.ok.nativeElement.focus()
             })
 
             this.dialogFinisher = res
@@ -120,6 +128,7 @@ export class DialogComponent {
         this.selectNameOnly = false
         this.noIsDefault = false
         this.isShowing = false
+        this.rename = false
         const result = { 
             result: resultValue,
             text: this.input ? this.input.nativeElement.value : null
@@ -133,7 +142,5 @@ export class DialogComponent {
     }
 
     private dialogFinisher: (res: DialogResult)=>void
-    isShowing = false
-    private defaultButton: ElementRef
     private focusedElement: HTMLElement
 }
