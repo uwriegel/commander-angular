@@ -17,6 +17,11 @@ npm run dist
 ```
 ## TODOs
 * Extended Rename off switchable
+
+* current element on ..: Display FolderInfo in statusline and viewer
+* Elements selected: display count in status line
+* copy operation: after refresh select last current element in both views
+* network drive: .. does not switch to root
 * CreateFolder as IFileOperation
 * Mouse wheel zoom
 * FILEOperations: error descriptions
