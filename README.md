@@ -20,6 +20,8 @@ npm run dist
 
 * current element on ..: Display FolderInfo in statusline and viewer
 * Elements selected: display count in status line
+* ERROR Error: ENOENT: no such file or directory, lstat 'D:\' -> switch to "root"
+* In DirectoryEdit: enter does not set focus on listView
 * copy operation: after refresh select last current element in both views
 * network drive: .. does not switch to root
 * CreateFolder as IFileOperation
