@@ -32,5 +32,6 @@ npm run dist
 ## VUE
 vue project, call dialog
 table (for vertical, then for horizontal)
+test
 
 
