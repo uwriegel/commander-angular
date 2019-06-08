@@ -29,5 +29,8 @@ npm run dist
 * FILEOperations: error descriptions
 * Adapt zoom level in menue
 
+## VUE
+vue project, call dialog
+table (for vertical, then for horizontal)
 
 
