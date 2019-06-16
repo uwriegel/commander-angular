@@ -44,6 +44,8 @@ const createWindow = function() {
         if (error) console.error('Failed to register protocol', error)
     })
 
+//    BrowserWindow.addDevToolsExtension('node_modules/vue-devtools')
+
     let recentUrl = ""
     protocol.registerBufferProtocol('getfile', (request, callback) => {
         recentUrl = request.url
@@ -118,7 +120,7 @@ const createWindow = function() {
     
     win.loadURL(
         url.format({
-            pathname: path.join(__dirname, `/../../angular/commander/index.html`),
+            pathname: path.join(__dirname, `/../../vue/test.html`),
             protocol: "file:",
             slashes: true
         })

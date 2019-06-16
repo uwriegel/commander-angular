@@ -1,9 +1,0 @@
-<table #table tabindex="1" [style.clip]="table.parentElement.clientHeight | clipHeight"
-     (keydown)="onKeyDown($event)" (mousewheel)=scrollbar.onMouseWheel($event) (mousedown)="onMouseDown($event)" (focusin)="onFocusIn($event)">
-    <thead app-columns [id]="id" [columns]="columns" (onSort)="onColumnSort($event)" (onColumnsChanged)="onColumnsChanged($event)"></thead>
-    <ng-content ></ng-content>
-</table>    
-<app-scrollbar #scrollbar [list]=table [itemHeight]="itemHeight" [columnsHeight]="columnHeight"></app-scrollbar>
-
-
-
