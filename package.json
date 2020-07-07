@@ -46,7 +46,7 @@
         "@types/jasminewd2": "~2.0.3",
         "@types/node": "~8.9.4",
         "codelyzer": "~4.5.0",
-        "electron": "^5.0.1",
+        "electron": "^7.2.4",
         "electron-builder": "^20.39.0",
         "electron-rebuild": "^1.8.4",
         "protractor": "~5.4.0",
